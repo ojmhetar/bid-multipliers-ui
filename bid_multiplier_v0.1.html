@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Bid Multipliers Alpha</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"
+          integrity="sha256-p6xU9YulB7E2Ic62/PX+h59ayb3PBJ0WFTEQxq0EjHw=" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#android-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#android-input").val(ui.values[0]);
+                }
+            });
+            $("#android-input").val($("#android-range").slider("values", 0));
+
+            $("#ios-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#ios-input").val(ui.values[0]);
+                }
+            });
+            $("#ios-input").val($("#ios-range").slider("values", 0));
+        });
+    </script>
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '624875111674693');
+        fbq('track', 'PageView');
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-v0.1] Bid Multiplier Tool</h1>
+    <form>
+
+        <div class="form-group">
+            <label for="ad-set-id-input">Ad Set ID</label>
+            <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help"
+                   placeholder="">
+            <small id="ad-set-id-input-help" class="form-text text-muted">
+                Ad set must be using conversion optimization.
+            </small>
+        </div>
+
+
+        <div class="form-group">
+            <p>
+                <label for="ios-input" aria-describedby="android-input-help">Android:&nbsp;</label>
+                <input type="text" id="android-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="android-range"></div>
+            <small id="android-input-help" class="form-text text-muted" style="padding-top: 0.5rem;">
+                A range from .09 to 1.0
+            </small>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <label for="ios-input" aria-describedby="ios-input-help">iOS:&nbsp;</label>
+                <input type="text" id="ios-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="ios-range"></div>
+            <small id="ios-input-help" class="form-text text-muted" style="padding-top: 0.5rem;">
+                A range from .09 to 1.0
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="access-token-input">Access Token</label>
+            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help"
+                   placeholder="">
+            <small id="access-token-input-help" class="form-text text-muted">
+                See instructions for obtaining an access token.
+            </small>
+        </div>
+
+        <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
+        <br/>
+        <br/>
+
+        <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert"
+             style="display: none;">
+            <span id="alert-text"></span>
+            <button type="button" class="close" onclick="$('#alert-text-box').hide();">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>
+    $('#submit-button').click(function () {
+        $('#alert-text-box').hide();
+
+        let adSetId = $('#ad-set-id-input').val().trim();
+        let accessToken = $('#access-token-input').val().trim();
+        let androidBidMod = $('#android-range').slider("values", 0);
+        let iOSBidMod = $('#ios-range').slider("values", 0);
+
+        if (adSetId === '' || accessToken === '') {
+            sendAlert('Please complete all fields', true);
+            return;
+        }
+        if (!/^\d+$/.test(adSetId)) {
+            sendAlert('Ad Set ID must be numeric', true);
+            return;
+        }
+
+        let data = {
+            'access_token': accessToken,
+            'bid_adjustments': {
+                'user_groups': {
+                    "user_os": {
+                        "Android": androidBidMod,
+                        "iOS": iOSBidMod,
+                        "default": 1.0
+                    }
+                }
+            }
+        };
+        var xhr = $.ajax({
+            url: "https://graph.facebook.com/v12.0/" + adSetId,
+            type: "POST",
+            data: data,
+            success: function (res) {
+                console.log(res);
+                fbq('track', 'BidModApplied');
+                sendAlert('Success!', false);
+            },
+            error: function (res) {
+                let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
+                fbq('track', 'LALFailure');
+                sendAlert(errorText, true);
+            }
+        });
+
+        console.log(xhr);
+    });
+
+    function sendAlert(text, isError) {
+        let $alert = $('#alert-text-box');
+        if (isError) {
+            $alert.removeClass('alert-success');
+            $alert.addClass('alert-danger');
+        } else {
+            $alert.removeClass('alert-danger');
+            $alert.addClass('alert-success');
+        }
+        $('#alert-text').text(text);
+        $alert.show();
+    }
+
+</script>
+</body>
+</html>
