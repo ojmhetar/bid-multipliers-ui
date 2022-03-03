@@ -36,6 +36,91 @@
                 }
             });
             $("#ios-input").val($("#ios-range").slider("values", 0));
+
+            $("#os-default-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#os-default-input").val(ui.values[0]);
+                }
+            });
+            $("#os-default-input").val($("#os-default-range").slider("values", 0));
+
+            $("#gender-male-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#gender-male-input").val(ui.values[0]);
+                }
+            });
+            $("#gender-male-input").val($("#gender-male-range").slider("values", 0));
+
+            $("#gender-female-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#gender-female-input").val(ui.values[0]);
+                }
+            });
+            $("#gender-female-input").val($("#gender-female-range").slider("values", 0));
+
+
+            $("#gender-default-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#gender-default-input").val(ui.values[0]);
+                }
+            });
+            $("#gender-default-input").val($("#gender-default-range").slider("values", 0))
+
+            $("#age-one-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#age-one-input").val(ui.values[0]);
+                }
+            });
+            $("#age-one-input").val($("#age-one-range").slider("values", 0));
+
+            $("#age-two-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#age-two-input").val(ui.values[0]);
+                }
+            });
+            $("#age-two-input").val($("#age-two-range").slider("values", 0));
+
+            $("#age-default-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#age-default-input").val(ui.values[0]);
+                }
+            });
+            $("#age-default-input").val($("#age-default-range").slider("values", 0));
         });
     </script>
     <script>
@@ -75,6 +160,16 @@
             </small>
         </div>
 
+        <div class="form-group">
+            <label for="access-token-input">Access Token</label>
+            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help"
+                   placeholder="">
+            <small id="access-token-input-help" class="form-text text-muted">
+                See instructions for obtaining an access token.
+            </small>
+        </div>
+
+        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h1>
 
         <div class="form-group">
             <p>
@@ -82,9 +177,6 @@
                 <input type="text" id="android-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
             </p>
             <div id="android-range"></div>
-            <small id="android-input-help" class="form-text text-muted" style="padding-top: 0.5rem;">
-                A range from .09 to 1.0
-            </small>
         </div>
 
         <div class="form-group">
@@ -93,18 +185,67 @@
                 <input type="text" id="ios-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
             </p>
             <div id="ios-range"></div>
-            <small id="ios-input-help" class="form-text text-muted" style="padding-top: 0.5rem;">
-                A range from .09 to 1.0
-            </small>
         </div>
 
         <div class="form-group">
-            <label for="access-token-input">Access Token</label>
-            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help"
-                   placeholder="">
-            <small id="access-token-input-help" class="form-text text-muted">
-                See instructions for obtaining an access token.
-            </small>
+            <p>
+                <label for="os-default-input" aria-describedby="os-default-help">Default:&nbsp;</label>
+                <input type="text" id="os-default-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="os-default-range"></div>
+        </div>
+
+
+        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h1>
+
+        <div class="form-group">
+            <p>
+                <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
+                <input type="text" id="gender-male-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="gender-male-range"></div>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <label for="gender-female-input" aria-describedby="gender-female-help">Female:&nbsp;</label>
+                <input type="text" id="gender-female-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="gender-female-range"></div>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <label for="gender-default-input" aria-describedby="gender-default-help">Default:&nbsp;</label>
+                <input type="text" id="gender-default-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="gender-default-range"></div>
+        </div>
+
+        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h1>
+
+        <div class="form-group">
+            <p>
+                <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
+                <input type="text" id="age-one-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="age-one-range"></div>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <input type="number" value="30" id="age-two-start"> to <input type="number" value="35" id="age-two-end">:
+                <input type="text" id="age-two-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="age-two-range"></div>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
+                <input type="text" id="age-default-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="age-default-range"></div>
         </div>
 
         <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
@@ -130,8 +271,19 @@
 
         let adSetId = $('#ad-set-id-input').val().trim();
         let accessToken = $('#access-token-input').val().trim();
+
         let androidBidMod = $('#android-range').slider("values", 0);
         let iOSBidMod = $('#ios-range').slider("values", 0);
+        let osDefaultBidMod = $('#os-default-range').slider("values", 0);
+
+        let maleBidMod = $('#gender-male-range').slider("values", 0);
+        let femaleBidMod = $('#gender-female-range').slider("values", 0);
+        let genderDefaultBidMod = $('#gender-default-range').slider("values", 0);
+
+        let ageOneBidMod = $('#age-one-range').slider("values", 0);
+        let ageTwoBidMod = $('#age-two-range').slider("values", 0);
+        let ageDefaultBidMod = $('#age-default-range').slider("values", 0);
+
 
         if (adSetId === '' || accessToken === '') {
             sendAlert('Please complete all fields', true);
@@ -141,6 +293,9 @@
             sendAlert('Ad Set ID must be numeric', true);
             return;
         }
+        let ageOne = $('age-one-start').val() + '-' + $('age-one-end').val();
+        let ageTwo = $('age-two-start').val()+ '-' + $('age-two-end').val();
+
 
         let data = {
             'access_token': accessToken,
@@ -149,11 +304,23 @@
                     "user_os": {
                         "Android": androidBidMod,
                         "iOS": iOSBidMod,
-                        "default": 1.0
+                        "default": osDefaultBidMod
+                    },
+                    "gender": {
+                        "male": maleBidMod,
+                        "female": femaleBidMod,
+                        "default": genderDefaultBidMod
+                    },
+                    "age": {
+                        ageOne: ageOneBidMod,
+                        ageTwo: ageTwoBidMod,
+                        "default": ageDefaultBidMod
                     }
                 }
             }
         };
+
+        console.log(data);
         var xhr = $.ajax({
             url: "https://graph.facebook.com/v12.0/" + adSetId,
             type: "POST",
