@@ -148,7 +148,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.1] Bid Multiplier Tool</h1>
+    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.2] Bid Multiplier Tool</h1>
     <form>
 
         <div class="form-group">
@@ -293,9 +293,13 @@
             sendAlert('Ad Set ID must be numeric', true);
             return;
         }
-        let ageOne = $('age-one-start').val() + '-' + $('age-one-end').val();
-        let ageTwo = $('age-two-start').val()+ '-' + $('age-two-end').val();
+        let ageOne = $('#age-one-start').val() + '-' + $('#age-one-end').val();
+        let ageTwo = $('#age-two-start').val() + '-' + $('#age-two-end').val();
 
+        let ageGroup = {};
+        ageGroup[ageOne] = ageOneBidMod;
+        ageGroup[ageTwo] = ageTwoBidMod;
+        ageGroup["default"] = ageDefaultBidMod;
 
         let data = {
             'access_token': accessToken,
@@ -311,16 +315,12 @@
                         "female": femaleBidMod,
                         "default": genderDefaultBidMod
                     },
-                    "age": {
-                        ageOne: ageOneBidMod,
-                        ageTwo: ageTwoBidMod,
-                        "default": ageDefaultBidMod
-                    }
+                    "age": ageGroup
                 }
             }
         };
-
         console.log(data);
+
         var xhr = $.ajax({
             url: "https://graph.facebook.com/v12.0/" + adSetId,
             type: "POST",
