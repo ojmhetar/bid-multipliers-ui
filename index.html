@@ -142,7 +142,7 @@
             s.parentNode.insertBefore(t, s)
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '624875111674693');
+        fbq('init', '241591860680976');
         fbq('track', 'PageView');
     </script>
 </head>
@@ -167,6 +167,27 @@
             <small id="access-token-input-help" class="form-text text-muted">
                 See instructions for obtaining an access token.
             </small>
+        </div>
+
+        <div id="radioSelector">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os" checked>
+                <label class="form-check-label" for="flexRadioOS">
+                    Impression Device OS
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioGender" value="gender">
+                <label class="form-check-label" for="flexRadioGender">
+                    Gender
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioAge" value="age">
+                <label class="form-check-label" for="flexRadioAge">
+                    Age
+                </label>
+            </div>
         </div>
 
         <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h1>
@@ -266,6 +287,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script>
+
+
+
     $('#submit-button').click(function () {
         $('#alert-text-box').hide();
 
@@ -301,28 +325,39 @@
         ageGroup[ageTwo] = ageTwoBidMod;
         ageGroup["default"] = ageDefaultBidMod;
 
+        let osGroup = {}
+        osGroup['Android'] = androidBidMod;
+        osGroup['iOS'] = iOSBidMod;
+        osGroup['default'] = osDefaultBidMod;
+
+        let genderGroup = {}
+        genderGroup['male'] = maleBidMod;
+        genderGroup['female'] = femaleBidMod;
+        genderGroup['default'] = genderDefaultBidMod;
+
+        let selectedGroup = $('input:checked').val();
+        let userGroup = {};
+
+        let groupWithBid = {};
+        groupWithBid["user_os"] = osGroup;
+        groupWithBid["gender"] = genderGroup;
+        groupWithBid["age"] = ageGroup;
+
+
+        userGroup[selectedGroup] = groupWithBid[selectedGroup];
+
+
         let data = {
             'access_token': accessToken,
             'bid_adjustments': {
-                'user_groups': {
-                    "user_os": {
-                        "Android": androidBidMod,
-                        "iOS": iOSBidMod,
-                        "default": osDefaultBidMod
-                    },
-                    "gender": {
-                        "male": maleBidMod,
-                        "female": femaleBidMod,
-                        "default": genderDefaultBidMod
-                    },
-                    "age": ageGroup
-                }
+                'user_groups': userGroup,
             }
         };
+
         console.log(data);
 
         var xhr = $.ajax({
-            url: "https://graph.facebook.com/v12.0/" + adSetId,
+            url: "https://graph.facebook.com/v13.0/" + adSetId,
             type: "POST",
             data: data,
             success: function (res) {
@@ -331,13 +366,12 @@
                 sendAlert('Success!', false);
             },
             error: function (res) {
+                console.log(res);
                 let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
-                fbq('track', 'LALFailure');
+                fbq('track', 'BidModFailure');
                 sendAlert(errorText, true);
             }
         });
-
-        console.log(xhr);
     });
 
     function sendAlert(text, isError) {
