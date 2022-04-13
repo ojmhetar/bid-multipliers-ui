@@ -13,6 +13,14 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(function () {
+            $('input[type="radio"]').click(function() {
+                var inputValue = $(this).attr("value");
+                $("#user_os_group_id" ).hide();
+                $("#age_group_id" ).hide();
+                $("#gender_group_id" ).hide();
+                $("#custom_audience_group_id" ).hide();
+                $("#" + inputValue + '_group_id').show();
+            });
             $("#android-range").slider({
                 range: false,
                 min: 0.09,
@@ -121,6 +129,50 @@
                 }
             });
             $("#age-default-input").val($("#age-default-range").slider("values", 0));
+
+            var max_fields = 10;
+            var wrapper = $(".custom-audience-wrapper");
+            var add_button = $("#add-cutom-audience-button");
+            var custom_audience_cnt = 0
+            $(add_button).click(function(e) {
+            e.preventDefault();
+            if (custom_audience_cnt < max_fields) {
+                let i = custom_audience_cnt;
+                let input = `<div class='ca-section'>
+                                <p>
+                                    <label for="custom-audience-id-${i}" aria-describedby="custom-audience-help">Custome Audience ID:&nbsp;</label>
+                                    <input type="text" value="" id="custom-audience-id-${i}" class="custom-audience-input">:
+                                    <input type="text" value='1' class="custom-audience-bid" id="custom-audience-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+                                <div id="custom-audience-id-range-${i}" class="custom-audience-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                                <a href="#" class="delete">Delete</a>
+                            </div>`;
+                $(wrapper).append(input); //add input box
+
+                $(`#custom-audience-id-range-${i}`).slider({
+                    range: false,
+                    min: 0.09,
+                    max: 1.0,
+                    step: .01,
+                    values: [1.0],
+                    slide: function (event, ui) {
+                        $(`#custom-audience-input-${i}`).val(ui.values[0]);
+                    }
+                });
+                custom_audience_cnt++;
+
+            } else {
+                alert('Max number of customer Audience ID is ' + max_fields)
+            }
+            });
+
+            $(wrapper).on("click", ".delete", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                custom_audience_cnt--;
+
+            })
+
         });
     </script>
     <script>
@@ -150,11 +202,9 @@
 <div class="container">
     <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.2] Bid Multiplier Tool</h1>
     <form>
-
         <div class="form-group">
             <label for="ad-set-id-input">Ad Set ID</label>
-            <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help"
-                   placeholder="">
+            <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help" placeholder="">
             <small id="ad-set-id-input-help" class="form-text text-muted">
                 Ad set must be using conversion optimization.
             </small>
@@ -162,16 +212,21 @@
 
         <div class="form-group">
             <label for="access-token-input">Access Token</label>
-            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help"
-                   placeholder="">
+            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help" placeholder="">
             <small id="access-token-input-help" class="form-text text-muted">
                 See instructions for obtaining an access token.
             </small>
         </div>
-
         <div id="radioSelector">
+
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os" checked>
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioCustomAudience" value="custom_audience" checked="">
+                <label class="form-check-label" for="flexRadioOS">
+                    Custom Audience
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os">
                 <label class="form-check-label" for="flexRadioOS">
                     Impression Device OS
                 </label>
@@ -190,94 +245,103 @@
             </div>
         </div>
 
-        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h1>
+        <div id="user_os_group_id" style="display: none;">
+        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h5>
 
         <div class="form-group">
             <p>
                 <label for="ios-input" aria-describedby="android-input-help">Android:&nbsp;</label>
-                <input type="text" id="android-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="android-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="android-range"></div>
+            <div id="android-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
         </div>
 
         <div class="form-group">
             <p>
                 <label for="ios-input" aria-describedby="ios-input-help">iOS:&nbsp;</label>
-                <input type="text" id="ios-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="ios-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="ios-range"></div>
+            <div id="ios-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
         </div>
 
         <div class="form-group">
             <p>
                 <label for="os-default-input" aria-describedby="os-default-help">Default:&nbsp;</label>
-                <input type="text" id="os-default-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="os-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="os-default-range"></div>
+            <div id="os-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
         </div>
 
-
-        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h1>
-
-        <div class="form-group">
-            <p>
-                <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
-                <input type="text" id="gender-male-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="gender-male-range"></div>
-        </div>
-
+        <div id="gender_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h5>
+            <div class="form-group">
+                <p>
+                    <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
+                    <input type="text" id="gender-male-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="gender-male-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
         <div class="form-group">
             <p>
                 <label for="gender-female-input" aria-describedby="gender-female-help">Female:&nbsp;</label>
-                <input type="text" id="gender-female-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="gender-female-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="gender-female-range"></div>
+            <div id="gender-female-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
         </div>
 
         <div class="form-group">
             <p>
                 <label for="gender-default-input" aria-describedby="gender-default-help">Default:&nbsp;</label>
-                <input type="text" id="gender-default-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="gender-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="gender-default-range"></div>
+            <div id="gender-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
         </div>
 
-        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h1>
-
-        <div class="form-group">
-            <p>
-                <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
-                <input type="text" id="age-one-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-one-range"></div>
-        </div>
-
+        <div id="age_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h5>
+            <div class="form-group">
+                <p>
+                    <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
+                    <input type="text" id="age-one-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="age-one-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
         <div class="form-group">
             <p>
                 <input type="number" value="30" id="age-two-start"> to <input type="number" value="35" id="age-two-end">:
-                <input type="text" id="age-two-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="age-two-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="age-two-range"></div>
+            <div id="age-two-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
         </div>
 
         <div class="form-group">
             <p>
                 <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
-                <input type="text" id="age-default-input" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <input type="text" id="age-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
             </p>
-            <div id="age-default-range"></div>
+            <div id="age-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
+        </div>
+
+        <div id="custom_audience_group_id">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Custom Audience</h5>
+            <button type="button" id="add-cutom-audience-button" class="btn btn-secondary">Add Custome Audience (Can add more than one)</button>
+            <br>
+            <br>
+            <div class="form-group custom-audience-wrapper">
+            </div>
         </div>
 
         <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
-        <br/>
-        <br/>
+        <br>
+        <br>
 
-        <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert"
-             style="display: none;">
+        <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
             <span id="alert-text"></span>
-            <button type="button" class="close" onclick="$('#alert-text-box').hide();">
-                <span aria-hidden="true">&times;</span>
+            <button type="button" class="close" onclick="$(&#39;#alert-text-box&#39;).hide();">
+                <span aria-hidden="true">×</span>
             </button>
         </div>
     </form>
@@ -320,6 +384,17 @@
         let ageOne = $('#age-one-start').val() + '-' + $('#age-one-end').val();
         let ageTwo = $('#age-two-start').val() + '-' + $('#age-two-end').val();
 
+        let customAudienceIDs = {};
+        $(".custom-audience-input").each(function(){
+            if($(this).val()==""){
+                sendAlert('custom audience id cannot be empty', true);
+            }else{
+                let customAudienceID = $(this).val().trim();
+                let customAudienceIDBidMod = $(this).closest(".ca-section").find('.custom-audience-bid').val();
+                customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
+            }
+        });
+
         let ageGroup = {};
         ageGroup[ageOne] = ageOneBidMod;
         ageGroup[ageTwo] = ageTwoBidMod;
@@ -339,6 +414,7 @@
         let userGroup = {};
 
         let groupWithBid = {};
+        groupWithBid['custom_audience'] = customAudienceIDs;
         groupWithBid["user_os"] = osGroup;
         groupWithBid["gender"] = genderGroup;
         groupWithBid["age"] = ageGroup;
@@ -362,13 +438,13 @@
             data: data,
             success: function (res) {
                 console.log(res);
-                fbq('track', 'BidModApplied');
+                fbq('trackCustom', 'BidModApplied', {content_ids: [adSetId]});
                 sendAlert('Success!', false);
             },
             error: function (res) {
                 console.log(res);
                 let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
-                fbq('track', 'BidModFailure');
+                fbq('trackCustom', 'BidModFailure');
                 sendAlert(errorText, true);
             }
         });
