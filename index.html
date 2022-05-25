@@ -133,37 +133,50 @@
             var max_fields = 10;
             var wrapper = $(".custom-audience-wrapper");
             var add_button = $("#add-cutom-audience-button");
+            
+            $("#ca-default-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#ca-default-input").val(ui.values[0]);
+                }
+            });
+
+            $("#ca-default-input").val($("#ca-default-range").slider("values", 0));
             var custom_audience_cnt = 0
             $(add_button).click(function(e) {
-            e.preventDefault();
-            if (custom_audience_cnt < max_fields) {
-                let i = custom_audience_cnt;
-                let input = `<div class='ca-section'>
-                                <p>
-                                    <label for="custom-audience-id-${i}" aria-describedby="custom-audience-help">Custome Audience ID:&nbsp;</label>
-                                    <input type="text" value="" id="custom-audience-id-${i}" class="custom-audience-input">:
-                                    <input type="text" value='1' class="custom-audience-bid" id="custom-audience-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                                </p>
-                                <div id="custom-audience-id-range-${i}" class="custom-audience-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-                                <a href="#" class="delete">Delete</a>
-                            </div>`;
-                $(wrapper).append(input); //add input box
+                e.preventDefault();
+                if (custom_audience_cnt < max_fields) {
+                    let i = custom_audience_cnt;
+                    let input = `<div class='ca-section'>
+                                    <p>
+                                        <label for="custom-audience-id-${i}" aria-describedby="custom-audience-help">Custome Audience ID:&nbsp;</label>
+                                        <input type="text" value="" id="custom-audience-id-${i}" class="custom-audience-input">:
+                                        <input type="text" value='1' class="custom-audience-bid" id="custom-audience-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    </p>
+                                    <div id="custom-audience-id-range-${i}" class="custom-audience-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                                    <a href="#" class="delete">Delete</a>
+                                </div>`;
+                    $(wrapper).append(input); //add input box
 
-                $(`#custom-audience-id-range-${i}`).slider({
-                    range: false,
-                    min: 0.09,
-                    max: 1.0,
-                    step: .01,
-                    values: [1.0],
-                    slide: function (event, ui) {
-                        $(`#custom-audience-input-${i}`).val(ui.values[0]);
-                    }
-                });
-                custom_audience_cnt++;
+                    $(`#custom-audience-id-range-${i}`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#custom-audience-input-${i}`).val(ui.values[0]);
+                        }
+                    });
+                    custom_audience_cnt++;
 
-            } else {
-                alert('Max number of customer Audience ID is ' + max_fields)
-            }
+                } else {
+                    alert('Max number of customer Audience ID is ' + max_fields)
+                }
             });
 
             $(wrapper).on("click", ".delete", function(e) {
@@ -330,6 +343,13 @@
             <button type="button" id="add-cutom-audience-button" class="btn btn-secondary">Add Custom Audience (Can add more than one)</button>
             <br>
             <br>
+            <div class="form-group">
+                <p>
+                    <label for="ca-default-input" aria-describedby="ca-default-help">Default:&nbsp;</label>
+                    <input type="text" id="ca-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="ca-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
             <div class="form-group custom-audience-wrapper">
             </div>
         </div>
@@ -384,16 +404,18 @@
         let ageOne = $('#age-one-start').val() + '-' + $('#age-one-end').val();
         let ageTwo = $('#age-two-start').val() + '-' + $('#age-two-end').val();
 
+        let caDefaultBidMod = $('#ca-default-range').slider("values", 0);
         let customAudienceIDs = {};
         $(".custom-audience-input").each(function(){
-            if($(this).val()==""){
-                sendAlert('custom audience id cannot be empty', true);
-            }else{
-                let customAudienceID = $(this).val().trim();
-                let customAudienceIDBidMod = $(this).closest(".ca-section").find('.custom-audience-bid').val();
-                customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
-            }
+          if($(this).val()==""){
+              sendAlert('custom audience id cannot be empty', true);
+          }else{
+              let customAudienceID = $(this).val().trim();
+              let customAudienceIDBidMod = $(this).closest(".ca-section").find('.custom-audience-bid').val();
+              customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
+          }
         });
+        customAudienceIDs["default"] = caDefaultBidMod; 
 
         let ageGroup = {};
         ageGroup[ageOne] = ageOneBidMod;
