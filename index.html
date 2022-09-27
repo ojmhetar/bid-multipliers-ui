@@ -12,13 +12,300 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '241591860680976');
+        fbq('track', 'PageView');
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.3] Bid Multiplier Tool</h1>
+    <form>
+        <div class="form-group">
+            <label for="ad-set-id-input">Ad Set ID</label>
+            <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help" placeholder="">
+        </div>
+
+        <div class="form-group">
+            <label for="access-token-input">Access Token</label>
+            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help" placeholder="">
+            <small id="access-token-input-help" class="form-text text-muted">
+                See instructions for obtaining an access token.
+            </small>
+        </div>
+        <div id="radioSelector">
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioCustomAudience" value="custom_audience" checked="">
+                <label class="form-check-label" for="flexRadioOS">
+                    Custom Audience
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os">
+                <label class="form-check-label" for="flexRadioOS">
+                    Impression Device OS
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioGender" value="gender">
+                <label class="form-check-label" for="flexRadioGender">
+                    Gender
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioAge" value="age">
+                <label class="form-check-label" for="flexRadioAge">
+                    Age
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioDevPlatform" value="device_platform">
+                <label class="form-check-label" for="DevPlatform">
+                    Device Platform
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioPosType" value="position_type">
+                <label class="form-check-label" for="flexRadioPosType">
+                    Position Type
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioPublisherPlatform" value="publisher_platform">
+                <label class="form-check-label" for="flexRadioPublisherPlatform">
+                    Publisher Platform
+                </label>
+            </div>
+        </div>
+
+        <div id="user_os_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h5>
+
+            <div class="form-group">
+                <p>
+                    <label for="ios-input" aria-describedby="android-input-help">Android:&nbsp;</label>
+                    <input type="text" id="android-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="android-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="ios-input" aria-describedby="ios-input-help">iOS:&nbsp;</label>
+                    <input type="text" id="ios-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="ios-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="os-default-input" aria-describedby="os-default-help">Default:&nbsp;</label>
+                    <input type="text" id="os-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="os-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        </div>
+
+        <div id="gender_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h5>
+            <div class="form-group">
+                <p>
+                    <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
+                    <input type="text" id="gender-male-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="gender-male-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        <div class="form-group">
+            <p>
+                <label for="gender-female-input" aria-describedby="gender-female-help">Female:&nbsp;</label>
+                <input type="text" id="gender-female-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="gender-female-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <label for="gender-default-input" aria-describedby="gender-default-help">Default:&nbsp;</label>
+                <input type="text" id="gender-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="gender-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
+        </div>
+
+        <div id="age_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h5>
+            <div class="form-group">
+                <p>
+                    <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
+                    <input type="text" id="age-one-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="age-one-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        <div class="form-group">
+            <p>
+                <input type="number" value="30" id="age-two-start"> to <input type="number" value="35" id="age-two-end">:
+                <input type="text" id="age-two-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="age-two-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
+
+        <div class="form-group">
+            <p>
+                <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
+                <input type="text" id="age-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="age-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+        </div>
+        </div>
+
+        <div id="custom_audience_group_id">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Custom Audience</h5>
+            <button type="button" id="add-cutom-audience-button" class="btn btn-secondary">Add Custom Audience (Can add more than one)</button>
+            <br>
+            <br>
+            <div class="form-group">
+                <p>
+                    <label for="ca-default-input" aria-describedby="ca-default-help">Default:&nbsp;</label>
+                    <input type="text" id="ca-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="ca-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+            <div class="form-group custom-audience-wrapper">
+            </div>
+        </div>
+
+        <div id="device_platform_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Device Platform</h5>
+
+            <div class="form-group">
+                <p>
+                    <label for="dev_mobile_input">Mobile&nbsp;</label>
+                    <input type="text" id="dev_mobile_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="device-mobile-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="dev_desktop_input">Desktop&nbsp;</label>
+                    <input type="text" id="dev_desktop_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="device-desktop-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        </div>
+
+        <div id="position_type_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Position Type</h5>
+
+            <div class="form-group">
+                <p>
+                    <label for="fb_feed_input">facebook_feed&nbsp;</label>
+                    <input type="text" id="fb_feed_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="fb-feed-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="instagram_stream_input">instagram_stream (Instagram Feed)&nbsp;</label>
+                    <input type="text" id="instagram_stream_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="instagram-stream-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="ig_story_input">instagram_story&nbsp;</label>
+                    <input type="text" id="ig_story_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="ig-story-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        </div>
+
+        <div id="publisher_platform_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Publisher Platform</h5>
+
+            <div class="form-group">
+                <p>
+                    <label for="fb_platform_input">facebook&nbsp;</label>
+                    <input type="text" id="fb_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="fb-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="instagram_platform_input">instagram&nbsp;</label>
+                    <input type="text" id="instagram_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="instagram-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="default_platform__input">default&nbsp;</label>
+                    <input type="text" id="default_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="default-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        </div>
+
+
+
+        <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
+        <br>
+        <br>
+
+        <button type="button" id="check-current-bid-button" class="btn btn-info">Check Current Bid</button>
+        <br>
+        <div class="form-outline">
+            <pre id="current_bid"></pre>
+            <!-- <textarea class="form-control" id="textAreaCurrentBid" rows="10" readonly></textarea>
+            <label class="form-label" for="textAreaCurrentBid"></label> -->
+        </div>
+
+        <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+            <span id="alert-text"></span>
+            <button type="button" class="close" onclick="$(&#39;#alert-text-box&#39;).hide();">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>
+
+$(function () {
             $('input[type="radio"]').click(function() {
                 var inputValue = $(this).attr("value");
                 $("#user_os_group_id" ).hide();
                 $("#age_group_id" ).hide();
                 $("#gender_group_id" ).hide();
                 $("#custom_audience_group_id" ).hide();
+                $("#device_platform_group_id" ).hide();
+                $("#position_type_group_id" ).hide();
+                $("#publisher_platform_group_id" ).hide();
                 $("#" + inputValue + '_group_id').show();
             });
             $("#android-range").slider({
@@ -133,7 +420,7 @@
             var max_fields = 10;
             var wrapper = $(".custom-audience-wrapper");
             var add_button = $("#add-cutom-audience-button");
-            
+
             $("#ca-default-range").slider({
                 range: false,
                 min: 0.09,
@@ -186,193 +473,102 @@
 
             })
 
+            $("#device-desktop-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#dev_desktop_input").val(ui.values[0]);
+                }
+            });
+            $("#dev_desktop_input").val($("#device-desktop-range").slider("values", 0));
+            $("#device-mobile-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#dev_mobile_input").val(ui.values[0]);
+                }
+            });
+            $("#dev_mobile_input").val($("#device-desktop-range").slider("values", 0));
+
+            $("#fb-feed-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#fb_feed_input").val(ui.values[0]);
+                }
+            });
+            $("#fb_feed_input").val($("#fb-feed-range").slider("values", 0));
+
+            $("#instagram-stream-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#instagram_stream_input").val(ui.values[0]);
+                }
+            });
+            $("#instagram_stream_input").val($("#instagram-stream-range").slider("values", 0));
+
+            $("#ig-story-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#ig_story_input").val(ui.values[0]);
+                }
+            });
+            $("#ig_story_input").val($("#ig-story-range").slider("values", 0));
+
+            $("#fb-platform-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#fb_platform_input").val(ui.values[0]);
+                }
+            });
+            $("#fb_platform_input").val($("#fb-platform-range").slider("values", 0));
+
+            $("#instagram-platform-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#instagram_platform_input").val(ui.values[0]);
+                }
+            });
+            $("#instagram_platform_input").val($("#instagram-platform-range").slider("values", 0));
+
+            $("#default-platform-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#default_platform_input").val(ui.values[0]);
+                }
+            });
+            $("#default_platform_input").val($("#default-platform-range").slider("values", 0));
+
         });
-    </script>
-    <script>
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '241591860680976');
-        fbq('track', 'PageView');
-    </script>
-</head>
-<body>
-<div class="container">
-    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.3] Bid Multiplier Tool</h1>
-    <form>
-        <div class="form-group">
-            <label for="ad-set-id-input">Ad Set ID</label>
-            <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help" placeholder="">
-            <small id="ad-set-id-input-help" class="form-text text-muted">
-                Ad set must be using conversion optimization.
-            </small>
-        </div>
-
-        <div class="form-group">
-            <label for="access-token-input">Access Token</label>
-            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help" placeholder="">
-            <small id="access-token-input-help" class="form-text text-muted">
-                See instructions for obtaining an access token.
-            </small>
-        </div>
-        <div id="radioSelector">
-
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioCustomAudience" value="custom_audience" checked="">
-                <label class="form-check-label" for="flexRadioOS">
-                    Custom Audience
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os">
-                <label class="form-check-label" for="flexRadioOS">
-                    Impression Device OS
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioGender" value="gender">
-                <label class="form-check-label" for="flexRadioGender">
-                    Gender
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioAge" value="age">
-                <label class="form-check-label" for="flexRadioAge">
-                    Age
-                </label>
-            </div>
-        </div>
-
-        <div id="user_os_group_id" style="display: none;">
-        <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h5>
-
-        <div class="form-group">
-            <p>
-                <label for="ios-input" aria-describedby="android-input-help">Android:&nbsp;</label>
-                <input type="text" id="android-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="android-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-
-        <div class="form-group">
-            <p>
-                <label for="ios-input" aria-describedby="ios-input-help">iOS:&nbsp;</label>
-                <input type="text" id="ios-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="ios-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-
-        <div class="form-group">
-            <p>
-                <label for="os-default-input" aria-describedby="os-default-help">Default:&nbsp;</label>
-                <input type="text" id="os-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="os-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-        </div>
-
-        <div id="gender_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h5>
-            <div class="form-group">
-                <p>
-                    <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
-                    <input type="text" id="gender-male-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="gender-male-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        <div class="form-group">
-            <p>
-                <label for="gender-female-input" aria-describedby="gender-female-help">Female:&nbsp;</label>
-                <input type="text" id="gender-female-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="gender-female-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-
-        <div class="form-group">
-            <p>
-                <label for="gender-default-input" aria-describedby="gender-default-help">Default:&nbsp;</label>
-                <input type="text" id="gender-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="gender-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-        </div>
-
-        <div id="age_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h5>
-            <div class="form-group">
-                <p>
-                    <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
-                    <input type="text" id="age-one-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="age-one-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        <div class="form-group">
-            <p>
-                <input type="number" value="30" id="age-two-start"> to <input type="number" value="35" id="age-two-end">:
-                <input type="text" id="age-two-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-two-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-
-        <div class="form-group">
-            <p>
-                <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
-                <input type="text" id="age-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-        </div>
-
-        <div id="custom_audience_group_id">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Custom Audience</h5>
-            <button type="button" id="add-cutom-audience-button" class="btn btn-secondary">Add Custom Audience (Can add more than one)</button>
-            <br>
-            <br>
-            <div class="form-group">
-                <p>
-                    <label for="ca-default-input" aria-describedby="ca-default-help">Default:&nbsp;</label>
-                    <input type="text" id="ca-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="ca-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-            <div class="form-group custom-audience-wrapper">
-            </div>
-        </div>
-
-        <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
-        <br>
-        <br>
-
-        <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-            <span id="alert-text"></span>
-            <button type="button" class="close" onclick="$(&#39;#alert-text-box&#39;).hide();">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-    </form>
-</div>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script>
-
-
 
     $('#submit-button').click(function () {
         $('#alert-text-box').hide();
@@ -384,6 +580,13 @@
         let iOSBidMod = $('#ios-range').slider("values", 0);
         let osDefaultBidMod = $('#os-default-range').slider("values", 0);
 
+        let devMobileBidMod = $('#device-mobile-range').slider("values", 0);
+        let devDesktopBidMod = $('#device-desktop-range').slider("values", 0);
+
+        let fbFeedBidMod = $('#fb-feed-range').slider("values", 0);
+        let fbMarketPlaceBidMod = $('#instagram-stream-range').slider("values", 0);
+        let igStoryBidMod = $('#ig-story-range').slider("values", 0);
+
         let maleBidMod = $('#gender-male-range').slider("values", 0);
         let femaleBidMod = $('#gender-female-range').slider("values", 0);
         let genderDefaultBidMod = $('#gender-default-range').slider("values", 0);
@@ -392,6 +595,9 @@
         let ageTwoBidMod = $('#age-two-range').slider("values", 0);
         let ageDefaultBidMod = $('#age-default-range').slider("values", 0);
 
+        let fbPlatformBidMod = $('#fb-platform-range').slider("values", 0);
+        let igPlatformBidMod = $('#instagram-platform-range').slider("values", 0);
+        let defaultPlatformBidMod = $('#default-platform-range').slider("values", 0);
 
         if (adSetId === '' || accessToken === '') {
             sendAlert('Please complete all fields', true);
@@ -415,7 +621,7 @@
               customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
           }
         });
-        customAudienceIDs["default"] = caDefaultBidMod; 
+        customAudienceIDs["default"] = caDefaultBidMod;
 
         let ageGroup = {};
         ageGroup[ageOne] = ageOneBidMod;
@@ -432,6 +638,20 @@
         genderGroup['female'] = femaleBidMod;
         genderGroup['default'] = genderDefaultBidMod;
 
+        let deviceGroup = {}
+        deviceGroup['mobile'] = devMobileBidMod;
+        deviceGroup['desktop'] = devDesktopBidMod;
+
+        let positionGroup = {}
+        positionGroup['facebook_feed'] = fbFeedBidMod;
+        positionGroup['instagram_stream'] = fbMarketPlaceBidMod;
+        positionGroup['instagram_story'] = igStoryBidMod;
+
+        let platformGroup = {}
+        platformGroup['facebook'] = fbPlatformBidMod;
+        platformGroup['instagram'] = igPlatformBidMod;
+        platformGroup['default'] = defaultPlatformBidMod;
+
         let selectedGroup = $('input:checked').val();
         let userGroup = {};
 
@@ -440,7 +660,9 @@
         groupWithBid["user_os"] = osGroup;
         groupWithBid["gender"] = genderGroup;
         groupWithBid["age"] = ageGroup;
-
+        groupWithBid["device_platform"] = deviceGroup;
+        groupWithBid['position_type'] = positionGroup;
+        groupWithBid['publisher_platform'] = platformGroup;
 
         userGroup[selectedGroup] = groupWithBid[selectedGroup];
 
@@ -452,7 +674,9 @@
             }
         };
 
-        console.log(data);
+        // console.log(data);
+        // console.log(selectedGroup);
+        // console.log(groupWithBid);
 
         var xhr = $.ajax({
             url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v15.0/" + adSetId,
@@ -472,6 +696,37 @@
         });
     });
 
+    $('#check-current-bid-button').click(function () {
+        $('#alert-text-box').hide();
+        let adSetId = $('#ad-set-id-input').val().trim();
+        let accessToken = $('#access-token-input').val().trim();
+        if (adSetId === '' || accessToken === '') {
+            sendAlert('Please complete all fields', true);
+            return;
+        }
+        if (!/^\d+$/.test(adSetId)) {
+            sendAlert('Ad Set ID must be numeric', true);
+            return;
+        }
+        let data = {
+            'access_token': accessToken,
+        };
+        var xhr = $.ajax({
+                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v15.0/" + adSetId + "?fields=bid_adjustments",
+                type: "GET",
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    document.getElementById("current_bid").innerHTML = JSON.stringify(res, undefined, 5);
+                    //$('#current_bid').val(JSON.stringify(res, undefined, 2));
+                },
+                error: function (res) {
+                    console.log(res);
+                    let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
+                    sendAlert(errorText, true);
+                }
+            });
+    });
     function sendAlert(text, isError) {
         let $alert = $('#alert-text-box');
         if (isError) {
