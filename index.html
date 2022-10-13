@@ -36,7 +36,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.3] Bid Multiplier Tool</h1>
+    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.4] Bid Multiplier Tool</h1>
     <form>
         <div class="form-group">
             <label for="ad-set-id-input">Ad Set ID</label>
@@ -217,7 +217,7 @@
 
             <div class="form-group">
                 <p>
-                    <label for="fb_feed_input">facebook_feed&nbsp;</label>
+                    <label for="fb_feed_input">Facebook Feed&nbsp;</label>
                     <input type="text" id="fb_feed_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
                 <div id="fb-feed-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
@@ -225,7 +225,7 @@
 
             <div class="form-group">
                 <p>
-                    <label for="instagram_stream_input">instagram_stream (Instagram Feed)&nbsp;</label>
+                    <label for="instagram_stream_input">Instagram Feed (instagram_stream)&nbsp;</label>
                     <input type="text" id="instagram_stream_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
                 <div id="instagram-stream-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
@@ -233,10 +233,18 @@
 
             <div class="form-group">
                 <p>
-                    <label for="ig_story_input">instagram_story&nbsp;</label>
+                    <label for="ig_story_input">Instagram Story&nbsp;</label>
                     <input type="text" id="ig_story_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
                 <div id="ig-story-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="default_pos_input">Default&nbsp;</label>
+                    <input type="text" id="default_pos_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="default-pos-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
             </div>
         </div>
 
@@ -245,7 +253,7 @@
 
             <div class="form-group">
                 <p>
-                    <label for="fb_platform_input">facebook&nbsp;</label>
+                    <label for="fb_platform_input">Facebook&nbsp;</label>
                     <input type="text" id="fb_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
                 <div id="fb-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
@@ -253,7 +261,7 @@
 
             <div class="form-group">
                 <p>
-                    <label for="instagram_platform_input">instagram&nbsp;</label>
+                    <label for="instagram_platform_input">Instagram&nbsp;</label>
                     <input type="text" id="instagram_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
                 <div id="instagram-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
@@ -261,7 +269,7 @@
 
             <div class="form-group">
                 <p>
-                    <label for="default_platform__input">default&nbsp;</label>
+                    <label for="default_platform_input">Default&nbsp;</label>
                     <input type="text" id="default_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
                 <div id="default-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
@@ -532,6 +540,18 @@ $(function () {
             });
             $("#ig_story_input").val($("#ig-story-range").slider("values", 0));
 
+            $("#default-pos-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#default_pos_input").val(ui.values[0]);
+                }
+            });
+            $("#default_pos_input").val($("#default-pos-range").slider("values", 0));
+
             $("#fb-platform-range").slider({
                 range: false,
                 min: 0.09,
@@ -586,6 +606,8 @@ $(function () {
         let fbFeedBidMod = $('#fb-feed-range').slider("values", 0);
         let fbMarketPlaceBidMod = $('#instagram-stream-range').slider("values", 0);
         let igStoryBidMod = $('#ig-story-range').slider("values", 0);
+        let posDefaultBidMod = $('#default-pos-range').slider("values", 0);
+
 
         let maleBidMod = $('#gender-male-range').slider("values", 0);
         let femaleBidMod = $('#gender-female-range').slider("values", 0);
@@ -646,6 +668,7 @@ $(function () {
         positionGroup['facebook_feed'] = fbFeedBidMod;
         positionGroup['instagram_stream'] = fbMarketPlaceBidMod;
         positionGroup['instagram_story'] = igStoryBidMod;
+        positionGroup['default'] = posDefaultBidMod;
 
         let platformGroup = {}
         platformGroup['facebook'] = fbPlatformBidMod;
