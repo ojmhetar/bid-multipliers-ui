@@ -241,6 +241,22 @@
 
             <div class="form-group">
                 <p>
+                    <label for="ig_reels_input">Instagram Reels&nbsp;</label>
+                    <input type="text" id="ig_reels_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="ig-reels-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="fb_reels_input">Facebook Reels&nbsp;</label>
+                    <input type="text" id="fb_reels_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="fb-reels-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
                     <label for="default_pos_input">Default&nbsp;</label>
                     <input type="text" id="default_pos_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
@@ -540,6 +556,30 @@ $(function () {
             });
             $("#ig_story_input").val($("#ig-story-range").slider("values", 0));
 
+            $("#ig-reels-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#ig_reels_input").val(ui.values[0]);
+                }
+            });
+            $("#ig_reels_input").val($("#ig-reels-range").slider("values", 0));
+
+            $("#fb-reels-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#fb_reels_input").val(ui.values[0]);
+                }
+            });
+            $("#fb_reels_input").val($("#fb-reels-range").slider("values", 0));
+
             $("#default-pos-range").slider({
                 range: false,
                 min: 0.09,
@@ -606,6 +646,8 @@ $(function () {
         let fbFeedBidMod = $('#fb-feed-range').slider("values", 0);
         let fbMarketPlaceBidMod = $('#instagram-stream-range').slider("values", 0);
         let igStoryBidMod = $('#ig-story-range').slider("values", 0);
+        let igReelsBidMod = $('#ig-reels-range').slider("values", 0);
+        let fbReelsBidMod = $('#fb-reels-range').slider("values", 0);
         let posDefaultBidMod = $('#default-pos-range').slider("values", 0);
 
 
@@ -668,6 +710,8 @@ $(function () {
         positionGroup['facebook_feed'] = fbFeedBidMod;
         positionGroup['instagram_stream'] = fbMarketPlaceBidMod;
         positionGroup['instagram_story'] = igStoryBidMod;
+        positionGroup['instagram_reels'] = igReelsBidMod;
+        positionGroup['facebook_reels'] = fbReelsBidMod;
         positionGroup['default'] = posDefaultBidMod;
 
         let platformGroup = {}
