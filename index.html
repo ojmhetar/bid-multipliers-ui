@@ -36,7 +36,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.4] Bid Multiplier Tool</h1>
+    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.5] Bid Multiplier Tool</h1>
     <form>
         <div class="form-group">
             <label for="ad-set-id-input">Ad Set ID</label>
@@ -54,8 +54,14 @@
 
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioCustomAudience" value="custom_audience" checked="">
-                <label class="form-check-label" for="flexRadioOS">
+                <label class="form-check-label" for="flexRadioCustomAudience">
                     Custom Audience
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioHomeLocation" value="home_location">
+                <label class="form-check-label" for="flexRadioHomeLocation">
+                    Home Location (DMA)
                 </label>
             </div>
             <div class="form-check">
@@ -178,7 +184,7 @@
 
         <div id="custom_audience_group_id">
             <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Custom Audience</h5>
-            <button type="button" id="add-cutom-audience-button" class="btn btn-secondary">Add Custom Audience (Can add more than one)</button>
+            <button type="button" id="add-cutom-audience-button" class="btn btn-success"> + Add Custom Audience </button>
             <br>
             <br>
             <div class="form-group">
@@ -189,6 +195,22 @@
                 <div id="ca-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
             </div>
             <div class="form-group custom-audience-wrapper">
+            </div>
+        </div>
+
+        <div id="home_location_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Home Location (DMA)</h5>
+            <button type="button" id="add-home-location-button" class="btn btn-success"> + Add DMA</button>
+            <br>
+            <br>
+            <div class="form-group">
+                <p>
+                    <label for="hl-default-input" aria-describedby="hl-default-help">Default:&nbsp;</label>
+                    <input type="text" id="hl-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="hl-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+            <div class="form-group home-location-wrapper">
             </div>
         </div>
 
@@ -327,6 +349,7 @@ $(function () {
                 $("#age_group_id" ).hide();
                 $("#gender_group_id" ).hide();
                 $("#custom_audience_group_id" ).hide();
+                $("#home_location_group_id" ).hide();
                 $("#device_platform_group_id" ).hide();
                 $("#position_type_group_id" ).hide();
                 $("#publisher_platform_group_id" ).hide();
@@ -442,6 +465,9 @@ $(function () {
             $("#age-default-input").val($("#age-default-range").slider("values", 0));
 
             var max_fields = 10;
+
+
+            // Custom Audience
             var wrapper = $(".custom-audience-wrapper");
             var add_button = $("#add-cutom-audience-button");
 
@@ -464,7 +490,7 @@ $(function () {
                     let i = custom_audience_cnt;
                     let input = `<div class='ca-section'>
                                     <p>
-                                        <label for="custom-audience-id-${i}" aria-describedby="custom-audience-help">Custome Audience ID:&nbsp;</label>
+                                        <label for="custom-audience-id-${i}" aria-describedby="custom-audience-help">Custom Audience ID:&nbsp;</label>
                                         <input type="text" value="" id="custom-audience-id-${i}" class="custom-audience-input">:
                                         <input type="text" value='1' class="custom-audience-bid" id="custom-audience-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
                                     </p>
@@ -494,6 +520,62 @@ $(function () {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 custom_audience_cnt--;
+
+            })
+
+            // Home Location
+            var hl_wrapper = $(".home-location-wrapper");
+            var hl_add_button = $("#add-home-location-button");
+
+            $("#hl-default-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#hl-default-input").val(ui.values[0]);
+                }
+            });
+
+            $("#hl-default-input").val($("#hl-default-range").slider("values", 0));
+            var home_location_cnt = 0
+            $(hl_add_button).click(function(e) {
+                e.preventDefault();
+                if (home_location_cnt < max_fields) {
+                    let i = home_location_cnt;
+                    let input = `<div class='hl-section'>
+                                    <p>
+                                        <label for="home-location-id-${i}" aria-describedby="home-location-help">DMA:&nbsp;</label>
+                                        <input type="text" value="" id="home-location-id-${i}" class="home-location-input">:
+                                        <input type="text" value='1' class="home-location-bid" id="home-location-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    </p>
+                                    <div id="home-location-id-range-${i}" class="home-location-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                                    <a href="#" class="delete">Delete</a>
+                                </div>`;
+                    $(hl_wrapper).append(input); //add input box
+
+                    $(`#home-location-id-range-${i}`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#home-location-input-${i}`).val(ui.values[0]);
+                        }
+                    });
+                    home_location_cnt++;
+
+                } else {
+                    alert('Max number of DMAs is ' + max_fields)
+                }
+            });
+
+            $(hl_wrapper).on("click", ".delete", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                home_location_cnt--;
 
             })
 
@@ -685,6 +767,23 @@ $(function () {
               customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
           }
         });
+
+        let hlDefaultBidMod = $('#hl-default-range').slider("values", 0);
+        let homeLocationIDs = {};
+        $(".home-location-input").each(function(){
+          if($(this).val()==""){
+              sendAlert('home location cannot be empty', true);
+          }else{
+              let homeLocationID = $(this).val().trim();
+              let homeLocationIDBidMod = $(this).closest(".hl-section").find('.home-location-bid').val();
+              homeLocationIDs[homeLocationID] = parseFloat(homeLocationIDBidMod);
+          }
+        });
+
+        let homeLocationGroup = {};
+        homeLocationGroup["default"] = hlDefaultBidMod;
+        homeLocationGroup["dmas"] = homeLocationIDs;
+
         customAudienceIDs["default"] = caDefaultBidMod;
 
         let ageGroup = {};
@@ -711,7 +810,7 @@ $(function () {
         positionGroup['instagram_stream'] = fbMarketPlaceBidMod;
         positionGroup['instagram_story'] = igStoryBidMod;
         positionGroup['instagram_reels'] = igReelsBidMod;
-        positionGroup['facebook_reels'] = fbReelsBidMod;
+        positionGroup['facebook_facebook_reels'] = fbReelsBidMod;
         positionGroup['default'] = posDefaultBidMod;
 
         let platformGroup = {}
@@ -724,6 +823,7 @@ $(function () {
 
         let groupWithBid = {};
         groupWithBid['custom_audience'] = customAudienceIDs;
+        groupWithBid['home_location'] = homeLocationGroup;
         groupWithBid["user_os"] = osGroup;
         groupWithBid["gender"] = genderGroup;
         groupWithBid["age"] = ageGroup;
