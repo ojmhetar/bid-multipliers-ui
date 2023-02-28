@@ -58,12 +58,13 @@
                     Custom Audience
                 </label>
             </div>
-            <div class="form-check">
+            <!-- Uncomment to Enable DMA  -->
+            <!-- <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioHomeLocation" value="home_location">
                 <label class="form-check-label" for="flexRadioHomeLocation">
                     Home Location (DMA)
                 </label>
-            </div>
+            </div> -->
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os">
                 <label class="form-check-label" for="flexRadioOS">
@@ -341,6 +342,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script>
+let debug = false;
 
 $(function () {
             $('input[type="radio"]').click(function() {
@@ -774,14 +776,14 @@ $(function () {
           if($(this).val()==""){
               sendAlert('home location cannot be empty', true);
           }else{
-              let homeLocationID = $(this).val().trim();
+              let homeLocationID = String($(this).val().trim());
               let homeLocationIDBidMod = $(this).closest(".hl-section").find('.home-location-bid').val();
               homeLocationIDs[homeLocationID] = parseFloat(homeLocationIDBidMod);
           }
         });
 
         let homeLocationGroup = {};
-        homeLocationGroup["default"] = hlDefaultBidMod;
+        homeLocationGroup["default"] = hlDefaultBidMod.toString();
         homeLocationGroup["dmas"] = homeLocationIDs;
 
         customAudienceIDs["default"] = caDefaultBidMod;
@@ -841,9 +843,11 @@ $(function () {
             }
         };
 
-        // console.log(data);
-        // console.log(selectedGroup);
-        // console.log(groupWithBid);
+        if (debug === true) {
+            console.log(data);
+            console.log(selectedGroup);
+            console.log(groupWithBid);
+        }
 
         var xhr = $.ajax({
             url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetId,
