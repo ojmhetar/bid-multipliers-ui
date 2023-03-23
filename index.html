@@ -39,7 +39,7 @@
     <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.5] Bid Multiplier Tool</h1>
     <form>
         <div class="form-group">
-            <label for="ad-set-id-input">Ad Set ID</label>
+            <label for="ad-set-id-input">Ad Set ID(s)</label>
             <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help" placeholder="">
         </div>
 
@@ -715,7 +715,7 @@ $(function () {
     $('#submit-button').click(function () {
         $('#alert-text-box').hide();
 
-        let adSetId = $('#ad-set-id-input').val().trim();
+        let adSetIds = $('#ad-set-id-input').val().trim();
         let accessToken = $('#access-token-input').val().trim();
 
         let androidBidMod = $('#android-range').slider("values", 0);
@@ -745,14 +745,20 @@ $(function () {
         let igPlatformBidMod = $('#instagram-platform-range').slider("values", 0);
         let defaultPlatformBidMod = $('#default-platform-range').slider("values", 0);
 
-        if (adSetId === '' || accessToken === '') {
+        if (adSetIds === '' || accessToken === '') {
             sendAlert('Please complete all fields', true);
             return;
         }
-        if (!/^\d+$/.test(adSetId)) {
-            sendAlert('Ad Set ID must be numeric', true);
-            return;
+        adSetIds = adSetIds.split(/,/);
+        adSetIds = adSetIds.map(id => id.trim());
+        for (let x in adSetIds) {
+            let adSetId = adSetIds[x];
+            if (!/^\d+$/.test(adSetId)) {
+                sendAlert('All Ad Set IDs must be numeric', true);
+                return;
+            }
         }
+
         let ageOne = $('#age-one-start').val() + '-' + $('#age-one-end').val();
         let ageTwo = $('#age-two-start').val() + '-' + $('#age-two-end').val();
 
@@ -844,42 +850,48 @@ $(function () {
         // console.log(data);
         // console.log(selectedGroup);
         // console.log(groupWithBid);
-
-        var xhr = $.ajax({
-            url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetId,
-            type: "POST",
-            data: data,
-            success: function (res) {
-                console.log(res);
-                fbq('trackCustom', 'BidModApplied', {content_ids: [adSetId]});
-                sendAlert('Success!', false);
-            },
-            error: function (res) {
-                console.log(res);
-                let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
-                fbq('trackCustom', 'BidModFailure');
-                sendAlert(errorText, true);
-            }
-        });
+        for (let adSetId in adSetIds){
+            var xhr = $.ajax({
+                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetId,
+                type: "POST",
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    fbq('trackCustom', 'BidModApplied', {content_ids: [adSetId]});
+                    sendAlert('Success!', false);
+                },
+                error: function (res) {
+                    console.log(res);
+                    let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
+                    fbq('trackCustom', 'BidModFailure');
+                    sendAlert(errorText, true);
+                }
+            });
+        }
     });
 
     $('#check-current-bid-button').click(function () {
         $('#alert-text-box').hide();
-        let adSetId = $('#ad-set-id-input').val().trim();
+        let adSetIds= $('#ad-set-id-input').val().trim();
         let accessToken = $('#access-token-input').val().trim();
-        if (adSetId === '' || accessToken === '') {
+        if (adSetIds === '' || accessToken === '') {
             sendAlert('Please complete all fields', true);
             return;
         }
-        if (!/^\d+$/.test(adSetId)) {
-            sendAlert('Ad Set ID must be numeric', true);
-            return;
+        adSetIds = adSetIds.split(/,/);
+        adSetIds = adSetIds.map(id => id.trim());
+        for (let x in adSetIds) {
+            let adSetId = adSetIds[x];
+            if (!/^\d+$/.test(adSetId)) {
+                sendAlert('All Ad Set IDs must be numeric', true);
+                return;
+            }
         }
         let data = {
             'access_token': accessToken,
         };
         var xhr = $.ajax({
-                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetId + "?fields=bid_adjustments",
+                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetIds.join(',') + "?fields=bid_adjustments",
                 type: "GET",
                 data: data,
                 success: function (res) {
