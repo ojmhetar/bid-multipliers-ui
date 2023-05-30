@@ -973,7 +973,7 @@ $(function () {
         }
 
         var xhr = $.ajax({
-            url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetId,
+            url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v17.0/" + adSetId,
             type: "POST",
             data: data,
             success: function (res) {
@@ -1006,7 +1006,7 @@ $(function () {
             'access_token': accessToken,
         };
         var xhr = $.ajax({
-                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v16.0/" + adSetId + "?fields=bid_adjustments",
+                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v17.0/" + adSetId + "?fields=bid_adjustments",
                 type: "GET",
                 data: data,
                 success: function (res) {
