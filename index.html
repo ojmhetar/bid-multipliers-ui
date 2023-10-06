@@ -202,21 +202,24 @@
         <div id="home_location_group_id" style="display: none;">
             <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Home Location</h5>
             <button type="button" id="add-home-location-button-cities" class="btn btn-success"> + Add Cities</button>
+            <button type="button" id="add-home-location-button-cities-list" class="btn btn-success"> + Add Cities In Bulk</button>
             <br>
             <br>
             <div class="form-group home-location-cities-wrapper">
             </div>
             <button type="button" id="add-home-location-button-regions" class="btn btn-success"> + Add Regions</button>
+            <button type="button" id="add-home-location-button-regions-list" class="btn btn-success"> + Add Regions In Bulk</button>
             <br>
             <br>
             <div class="form-group home-location-regions-wrapper">
             </div>
             <button type="button" id="add-home-location-button-countries" class="btn btn-success"> + Add Countries</button>
+            <button type="button" id="add-home-location-button-countries-list" class="btn btn-success"> + Add Countries In Bulk</button>
             <br>
             <br>
             <div class="form-group home-location-countries-wrapper">
             </div>
-            
+
             <div class="form-group">
                 <p>
                     <label for="hl-default-input" aria-describedby="hl-default-help">Default:&nbsp;</label>
@@ -562,11 +565,17 @@ $(function () {
             // Cities
             var hl_wrapper_cities = $(".home-location-cities-wrapper");
             var hl_add_button_cities = $("#add-home-location-button-cities");
+            var hl_add_button_cities_list = $("#add-home-location-button-cities-list");
 
-            var home_location_cities_cnt = 0
+            var home_location_cities_cnt = 0;
+            var home_location_cities_list_cnt = 0;
             $(hl_add_button_cities).click(function(e) {
                 e.preventDefault();
-                if (home_location_cities_cnt < max_fields) {
+                let total_cities = home_location_cities_cnt;
+                for (let i=0; i<home_location_cities_list_cnt; i++) {
+                    total_cities += $(`#home-location-cities-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                }
+                if (total_cities < max_fields) {
                     let i = home_location_cities_cnt;
                     let input = `<div class='hl-section'>
                                     <p>
@@ -596,20 +605,79 @@ $(function () {
                 }
             });
 
+            $(hl_add_button_cities_list).click(function(e) {
+                e.preventDefault();
+                let total_cities = home_location_cities_cnt;
+                for (let i=0; i<home_location_cities_list_cnt; i++) {
+                    total_cities += $(`#home-location-cities-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                }
+                if (total_cities < max_fields) {
+                    let i = home_location_cities_list_cnt;
+                    let input = `<div class='hl-section'>
+                                    <p>
+                                        <label for="home-location-cities-list-id-${i}" aria-describedby="home-location-cities-help">City ID List (comma separated):&nbsp;</label>
+                                        <textarea type="text" value="" id="home-location-cities-list-id-${i}" class="home-location-cities-list-input" rows="5" cols="30"></textarea>:
+                                        <input type="text" value='1' class="home-location-cities-list-bid" id="home-location-cities-list-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    </p>
+                                    <div id="home-location-cities-list-id-range-${i}" class="home-location-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                                    <a href="#" class="delete_list">Delete</a>
+                                </div>`;
+                    $(hl_wrapper_cities).append(input); //add input box
+
+                    $(`#home-location-cities-list-id-${i}`).on("change keyup paste", function() {
+                        const current_cities_list_value = $(this).val();
+                        let total_city = home_location_cities_cnt;
+                        for (let i=0; i<home_location_cities_list_cnt; i++) {
+                            total_city += $(`#home-location-cities-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                        }
+                        if (total_city > max_fields) {
+                            alert('Max number of Cities is ' + max_fields);
+                        }
+                    });
+
+                    $(`#home-location-cities-list-id-range-${i}`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#home-location-cities-list-input-${i}`).val(ui.values[0]);
+                        }
+                    });
+                    home_location_cities_list_cnt++;
+                    console.log($(`#home-location-cities-list-id-${i}`).val().split(',').length);
+                } else {
+                    alert('Max number of Cities is ' + max_fields)
+                }
+            });
+
             $(hl_wrapper_cities).on("click", ".delete", function(e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_cities_cnt--;
             })
-            
+            $(hl_wrapper_cities).on("click", ".delete_list", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                home_location_cities_list_cnt--;
+            })
+
+
             // Regions
             var hl_wrapper_regions = $(".home-location-regions-wrapper");
             var hl_add_button_regions = $("#add-home-location-button-regions");
+            var hl_add_button_regions_list = $("#add-home-location-button-regions-list");
 
-            var home_location_regions_cnt = 0
+            var home_location_regions_cnt = 0;
+            var home_location_regions_list_cnt = 0;
             $(hl_add_button_regions).click(function(e) {
                 e.preventDefault();
-                if (home_location_regions_cnt < max_fields) {
+                let total_regions = home_location_regions_cnt;
+                for (let i=0; i<home_location_regions_list_cnt; i++) {
+                    total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                }
+                if (total_regions < max_fields) {
                     let i = home_location_regions_cnt;
                     let input = `<div class='hl-section'>
                                     <p>
@@ -638,21 +706,79 @@ $(function () {
                     alert('Max number of Regions is ' + max_fields)
                 }
             });
+            $(hl_add_button_regions_list).click(function(e) {
+                e.preventDefault();
+                let total_regions = home_location_regions_cnt;
+                for (let i=0; i<home_location_regions_list_cnt; i++) {
+                    total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                }
+                if (total_regions < max_fields) {
+                    let i = home_location_regions_cnt;
+                    let input = `<div class='hl-section'>
+                                    <p>
+                                        <label for="home-location-regions-list-id-${i}" aria-describedby="home-location-regions-help">Region ID:&nbsp;</label>
+                                        <textarea type="text" value="" id="home-location-regions-list-id-${i}" class="home-location-regions-list-input" rows="5" cols="30"></textarea>:
+                                        <input type="text" value='1' class="home-location-regions-list-bid" id="home-location-regions-list-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    </p>
+                                    <div id="home-location-regions-list-id-range-${i}" class="home-location-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                                    <a href="#" class="delete_list">Delete</a>
+                                </div>`;
+                    $(hl_wrapper_regions).append(input); //add input box
+
+                    $(`#home-location-regions-list-id-${i}`).on("change keyup paste", function() {
+                        const current_regions_list_value = $(this).val();
+                        let total_regions = home_location_regions_cnt;
+                        for (let i=0; i<home_location_regions_list_cnt; i++) {
+                            total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                        }
+                        if (total_regions > max_fields) {
+                            alert('Max number of Cities is ' + max_fields);
+                        }
+                    });
+
+                    $(`#home-location-regions-list-id-range-${i}`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#home-location-regions-list-input-${i}`).val(ui.values[0]);
+                        }
+                    });
+                    home_location_regions_list_cnt++;
+
+                } else {
+                    alert('Max number of Regions is ' + max_fields)
+                }
+            });
+
 
             $(hl_wrapper_regions).on("click", ".delete", function(e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_regions_cnt--;
             })
+            $(hl_wrapper_regions).on("click", ".delete_list", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                home_location_regions_list_cnt--;
+            })
 
             // Countries
             var hl_wrapper_countries = $(".home-location-countries-wrapper");
             var hl_add_button_countries = $("#add-home-location-button-countries");
+            var hl_add_button_countries_list = $("#add-home-location-button-countries-list");
 
             var home_location_countries_cnt = 0
+            var home_location_countries_list_cnt = 0
             $(hl_add_button_countries).click(function(e) {
                 e.preventDefault();
-                if (home_location_countries_cnt < max_fields) {
+                let total_countries = home_location_countries_cnt;
+                for (let i=0; i<home_location_countries_list_cnt; i++) {
+                    total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                }
+                if (total_countries < max_fields) {
                     let i = home_location_countries_cnt;
                     let input = `<div class='hl-section'>
                                     <p>
@@ -682,10 +808,62 @@ $(function () {
                 }
             });
 
+            $(hl_add_button_countries_list).click(function(e) {
+                e.preventDefault();
+                let total_countries = home_location_countries_cnt;
+                for (let i=0; i<home_location_countries_list_cnt; i++) {
+                    total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                }
+                if (total_countries < max_fields) {
+                    let i = home_location_countries_cnt;
+                    let input = `<div class='hl-section'>
+                                    <p>
+                                        <label for="home-location-countries-list-id-${i}" aria-describedby="home-location-countries-help">Country ID:&nbsp;</label>
+                                        <textarea type="text" value="" id="home-location-countries-list-id-${i}" class="home-location-countries-list-input" rows="5" cols="30"></textarea>:
+                                        <input type="text" value='1' class="home-location-countries-list-bid" id="home-location-countries-list-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    </p>
+                                    <div id="home-location-countries-list-id-range-${i}" class="home-location-slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                                    <a href="#" class="delete_list">Delete</a>
+                                </div>`;
+                    $(hl_wrapper_countries).append(input); //add input box
+
+                    $(`#home-location-countries-list-id-${i}`).on("change keyup paste", function() {
+                        const current_countries_list_value = $(this).val();
+                        let total_countries = home_location_countries_cnt;
+                        for (let i=0; i<home_location_countries_list_cnt; i++) {
+                            total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
+                        }
+                        if (total_countries > max_fields) {
+                            alert('Max number of Cities is ' + max_fields);
+                        }
+                    });
+
+                    $(`#home-location-countries-list-id-range-${i}`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#home-location-countries-list-input-${i}`).val(ui.values[0]);
+                        }
+                    });
+                    home_location_countries_list_cnt++;
+
+                } else {
+                    alert('Max number of Countries is ' + max_fields)
+                }
+            });
+
             $(hl_wrapper_countries).on("click", ".delete", function(e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_countries_cnt--;
+            })
+            $(hl_wrapper_countries).on("click", ".delete_list", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                home_location_countries_list_cnt--;
             })
 
             $("#device-desktop-range").slider({
@@ -901,6 +1079,18 @@ $(function () {
               homeLocationCityIDs[homeLocationCityID] = parseFloat(homeLocationCityIDBidMod);
           }
         });
+        $(".home-location-cities-list-input").each(function() {
+            if($(this).val()==""){
+              sendAlert('City location cannot be empty', true);
+          }else{
+              const cities = $(this).val().split(',');
+              for (const city of cities) {
+                let homeLocationCityID = String(city.trim());
+                let homeLocationCityIDBidMod = $(this).closest(".hl-section").find('.home-location-cities-list-bid').val();
+                homeLocationCityIDs[homeLocationCityID] = parseFloat(homeLocationCityIDBidMod);
+              }
+          }
+        })
 
         let homeLocationRegionIDs = {};
         $(".home-location-regions-input").each(function(){
@@ -912,6 +1102,18 @@ $(function () {
               homeLocationRegionIDs[homeLocationRegionID] = parseFloat(homeLocationRegionIDBidMod);
           }
         });
+        $(".home-location-regions-list-input").each(function() {
+            if($(this).val()==""){
+              sendAlert('Region location cannot be empty', true);
+          }else{
+              const regions = $(this).val().split(',');
+              for (const region of regions) {
+                let homeLocationRegionID = String(region.trim());
+                let homeLocationRegionIDBidMod = $(this).closest(".hl-section").find('.home-location-regions-list-bid').val();
+                homeLocationRegionIDs[homeLocationRegionID] = parseFloat(homeLocationRegionIDBidMod);
+              }
+          }
+        })
 
         let homeLocationCountryIDs = {};
         $(".home-location-countries-input").each(function(){
@@ -921,6 +1123,19 @@ $(function () {
               let homeLocationCountryID = String($(this).val().trim());
               let homeLocationCountryIDBidMod = $(this).closest(".hl-section").find('.home-location-countries-bid').val();
               homeLocationCountryIDs[homeLocationCountryID] = parseFloat(homeLocationCountryIDBidMod);
+          }
+        });
+        $(".home-location-countries-list-input").each(function(){
+          if($(this).val()==""){
+              sendAlert('Country location cannot be empty', true);
+          }else{
+            const countries = $(this).val().split(',');
+            for (const country of countries) {
+
+              let homeLocationCountryID = String(country.trim());
+              let homeLocationCountryIDBidMod = $(this).closest(".hl-section").find('.home-location-countries-list-bid').val();
+              homeLocationCountryIDs[homeLocationCountryID] = parseFloat(homeLocationCountryIDBidMod);
+            }
           }
         });
 
