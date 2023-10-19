@@ -713,10 +713,10 @@ $(function () {
                     total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_regions < max_fields) {
-                    let i = home_location_regions_cnt;
+                    let i = home_location_regions_list_cnt;
                     let input = `<div class='hl-section'>
                                     <p>
-                                        <label for="home-location-regions-list-id-${i}" aria-describedby="home-location-regions-help">Region ID:&nbsp;</label>
+                                        <label for="home-location-regions-list-id-${i}" aria-describedby="home-location-regions-help">Region ID List (comma separated):&nbsp;</label>
                                         <textarea type="text" value="" id="home-location-regions-list-id-${i}" class="home-location-regions-list-input" rows="5" cols="30"></textarea>:
                                         <input type="text" value='1' class="home-location-regions-list-bid" id="home-location-regions-list-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
                                     </p>
@@ -815,10 +815,10 @@ $(function () {
                     total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_countries < max_fields) {
-                    let i = home_location_countries_cnt;
+                    let i = home_location_countries_list_cnt;
                     let input = `<div class='hl-section'>
                                     <p>
-                                        <label for="home-location-countries-list-id-${i}" aria-describedby="home-location-countries-help">Country ID:&nbsp;</label>
+                                        <label for="home-location-countries-list-id-${i}" aria-describedby="home-location-countries-help">Country ID List (comma separated):&nbsp;</label>
                                         <textarea type="text" value="" id="home-location-countries-list-id-${i}" class="home-location-countries-list-input" rows="5" cols="30"></textarea>:
                                         <input type="text" value='1' class="home-location-countries-list-bid" id="home-location-countries-list-input-${i}" readonly style="border:0; color:#f6931f; font-weight:bold;">
                                     </p>
