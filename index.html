@@ -66,53 +66,53 @@
             </div>
         </div>
         <br>
-        <div id="radioSelector">
+        <div id="categoryRadioSelector">
             <label> Adjustment Category </label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioCustomAudience" value="custom_audience" checked="">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioCustomAudience" value="custom_audience" checked="">
                 <label class="form-check-label" for="flexRadioCustomAudience">
                     Custom Audience
                 </label>
             </div>
             <!-- Uncomment to Enable DMA  -->
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioHomeLocation" value="home_location">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioHomeLocation" value="home_location">
                 <label class="form-check-label" for="flexRadioHomeLocation">
                     Home Location
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioOS" value="user_os">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioOS" value="user_os">
                 <label class="form-check-label" for="flexRadioOS">
                     Impression Device OS
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioGender" value="gender">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioGender" value="gender">
                 <label class="form-check-label" for="flexRadioGender">
                     Gender
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioAge" value="age">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioAge" value="age">
                 <label class="form-check-label" for="flexRadioAge">
                     Age
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioDevPlatform" value="device_platform">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioDevPlatform" value="device_platform">
                 <label class="form-check-label" for="DevPlatform">
                     Device Platform
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioPosType" value="position_type">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioPosType" value="position_type">
                 <label class="form-check-label" for="flexRadioPosType">
                     Position Type
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadio" id="flexRadioPublisherPlatform" value="publisher_platform">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioPublisherPlatform" value="publisher_platform">
                 <label class="form-check-label" for="flexRadioPublisherPlatform">
                     Publisher Platform
                 </label>
@@ -388,6 +388,7 @@ $(function () {
                 $("input[value='gender']").prop('disabled', true);
                 $("input[value='home_location']").prop('disabled', true);
                 $("input[value='custom_audience']").prop('disabled', true);
+                $("input[value='publisher_platform']").prop('checked', true);
             });
 
             // Enable checkbox
@@ -1212,7 +1213,7 @@ $(function () {
         platformGroup['audience_network'] = anPlatformBidMod;
         platformGroup['default'] = defaultPlatformBidMod;
 
-        let selectedGroup = $('input:checked').val();
+        let selectedGroup = $('input[name="flexRadioCategory"]:checked').val();
         let userGroup = {};
 
         let groupWithBid = {};
@@ -1226,7 +1227,6 @@ $(function () {
         groupWithBid['publisher_platform'] = platformGroup;
 
         userGroup[selectedGroup] = groupWithBid[selectedGroup];
-
 
         let data = {
             'access_token': accessToken,
