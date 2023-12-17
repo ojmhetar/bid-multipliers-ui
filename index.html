@@ -117,6 +117,12 @@
                     Publisher Platform
                 </label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioUserDevice" value="user_device">
+                <label class="form-check-label" for="flexRadioUserDevice">
+                    User Device
+                </label>
+            </div>
         </div>
 
         <div id="user_os_group_id" style="display: none;">
@@ -353,6 +359,34 @@
             </div>
         </div>
 
+        <div id="user_device_group_id" style="display: none;">
+            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">User Device</h5>
+
+            <div class="form-group">
+                <p>
+                    <label for="iphone_user_device_input">iPhone&nbsp;</label>
+                    <input type="text" id="iphone_user_device_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="iphone-user-device-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="ipad_user_device_input">iPad&nbsp;</label>
+                    <input type="text" id="ipad_user_device_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="ipad-user-device-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    <label for="default_user_device_input">Default&nbsp;</label>
+                    <input type="text" id="default_user_device_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="default-user-device-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            </div>
+        </div>
+
 
         <br>
         <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
@@ -410,6 +444,7 @@ $(function () {
                 $("#device_platform_group_id" ).hide();
                 $("#position_type_group_id" ).hide();
                 $("#publisher_platform_group_id" ).hide();
+                $("#user_device_group_id" ).hide();
                 $("#" + inputValue + '_group_id').show();
             });
             $("#android-range").slider({
@@ -1042,6 +1077,42 @@ $(function () {
             });
             $("#default_platform_input").val($("#default-platform-range").slider("values", 0));
 
+            $("#iphone-user-device-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#iphone_user_device_input").val(ui.values[0]);
+                }
+            });
+            $("#iphone_user_device_input").val($("#iphone-user-device-range").slider("values", 0));
+
+            $("#ipad-user-device-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#ipad_user_device_input").val(ui.values[0]);
+                }
+            });
+            $("#ipad_user_device_input").val($("#ipad-user-device-range").slider("values", 0));
+
+
+            $("#default-user-device-range").slider({
+                range: false,
+                min: 0.09,
+                max: 1.0,
+                step: .01,
+                values: [1.0],
+                slide: function (event, ui) {
+                    $("#default_user_device_input").val(ui.values[0]);
+                }
+            });
+            $("#default_user_device_input").val($("#default-user-device-range").slider("values", 0));
         });
 
     $('#submit-button').click(function () {
@@ -1077,6 +1148,10 @@ $(function () {
         let igPlatformBidMod = $('#instagram-platform-range').slider("values", 0);
         let anPlatformBidMod = $('#audiencenetwork-platform-range').slider("values", 0);
         let defaultPlatformBidMod = $('#default-platform-range').slider("values", 0);
+
+        let iphoneUserDeviceBidMod = $('#iphone-user-device-range').slider("values", 0);
+        let ipadUserDeviceBidMod = $('#ipad-user-device-range').slider("values", 0);
+        let defaultUserDeviceBidMod = $('#default-user-device-range').slider("values", 0);
 
         if (adSetId === '' || accessToken === '') {
             sendAlert('Please complete all fields', true);
@@ -1213,6 +1288,11 @@ $(function () {
         platformGroup['audience_network'] = anPlatformBidMod;
         platformGroup['default'] = defaultPlatformBidMod;
 
+        let userDeviceGroup = {}
+        userDeviceGroup['iPhone'] = iphoneUserDeviceBidMod;
+        userDeviceGroup['iPad'] = ipadUserDeviceBidMod;
+        userDeviceGroup['default'] = defaultUserDeviceBidMod;
+
         let selectedGroup = $('input[name="flexRadioCategory"]:checked').val();
         let userGroup = {};
 
@@ -1225,6 +1305,7 @@ $(function () {
         groupWithBid["device_platform"] = deviceGroup;
         groupWithBid['position_type'] = positionGroup;
         groupWithBid['publisher_platform'] = platformGroup;
+        groupWithBid['user_device'] = userDeviceGroup;
 
         userGroup[selectedGroup] = groupWithBid[selectedGroup];
 
