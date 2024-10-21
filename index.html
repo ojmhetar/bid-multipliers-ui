@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Bid Multipliers [Alpha UI]</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"
-          integrity="sha256-p6xU9YulB7E2Ic62/PX+h59ayb3PBJ0WFTEQxq0EjHw=" crossorigin="anonymous"/>
+        integrity="sha256-p6xU9YulB7E2Ic62/PX+h59ayb3PBJ0WFTEQxq0EjHw=" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
@@ -34,390 +35,496 @@
         fbq('track', 'PageView');
     </script>
 </head>
-<body>
-<div class="container">
-    <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.6] Bid Multiplier Tool</h1>
-    <form>
-        <div class="form-group">
-            <label for="ad-set-id-input">Ad Set ID</label>
-            <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help" placeholder="">
-        </div>
 
-        <div class="form-group">
-            <label for="access-token-input">Access Token</label>
-            <input type="text" class="form-control" id="access-token-input" aria-describedby="access-token-input-help" placeholder="">
-            <!-- <small id="access-token-input-help" class="form-text text-muted">
+<body>
+    <div class="container">
+        <h1 style="padding-top: 2rem; padding-bottom: 0.5rem;">[ALPHA-UI-v0.6] Bid Multiplier Tool</h1>
+        <form>
+            <div class="form-group">
+                <label for="ad-set-id-input">Ad Set ID</label>
+                <input type="text" class="form-control" id="ad-set-id-input" aria-describedby="ad-set-id-input-help"
+                    placeholder="">
+            </div>
+
+            <div class="form-group">
+                <label for="access-token-input">Access Token</label>
+                <input type="text" class="form-control" id="access-token-input"
+                    aria-describedby="access-token-input-help" placeholder="">
+                <!-- <small id="access-token-input-help" class="form-text text-muted">
                 See instructions for obtaining an access token.
             </small> -->
-        </div>
-        <div id="hecRadioSelector">
-            <label> Are you a HEC (Housing, Employment or Credit) advertiser? </label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioHEC" id="flexRadioHECYes" value="hecYes">
-                <label class="form-check-label" for="flexRadioHEC">
-                    Yes
-                </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioHEC" id="flexRadioHECNo" value="hecNo" checked="">
-                <label class="form-check-label" for="flexRadioHEC">
-                    No
-                </label>
+            <div id="hecRadioSelector">
+                <label> Are you a HEC (Housing, Employment or Credit) advertiser? </label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioHEC" id="flexRadioHECYes"
+                        value="hecYes">
+                    <label class="form-check-label" for="flexRadioHEC">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioHEC" id="flexRadioHECNo" value="hecNo"
+                        checked="">
+                    <label class="form-check-label" for="flexRadioHEC">
+                        No
+                    </label>
+                </div>
             </div>
-        </div>
-        <br>
-        <div id="categoryRadioSelector">
-            <label> Adjustment Category </label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioCustomAudience" value="custom_audience" checked="">
-                <label class="form-check-label" for="flexRadioCustomAudience">
-                    Custom Audience
-                </label>
-            </div>
-            <!-- Uncomment to Enable DMA  -->
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioHomeLocation" value="home_location">
-                <label class="form-check-label" for="flexRadioHomeLocation">
-                    Home Location
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioOS" value="user_os">
-                <label class="form-check-label" for="flexRadioOS">
-                    Impression Device OS
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioGender" value="gender">
-                <label class="form-check-label" for="flexRadioGender">
-                    Gender
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioAge" value="age">
-                <label class="form-check-label" for="flexRadioAge">
-                    Age
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioDevPlatform" value="device_platform">
-                <label class="form-check-label" for="DevPlatform">
-                    Device Platform
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioPosType" value="position_type">
-                <label class="form-check-label" for="flexRadioPosType">
-                    Position Type
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioPublisherPlatform" value="publisher_platform">
-                <label class="form-check-label" for="flexRadioPublisherPlatform">
-                    Publisher Platform
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioUserDevice" value="user_device">
-                <label class="form-check-label" for="flexRadioUserDevice">
-                    User Device
-                </label>
-            </div>
-        </div>
-
-        <div id="user_os_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h5>
-
-            <div class="form-group">
-                <p>
-                    <label for="ios-input" aria-describedby="android-input-help">Android:&nbsp;</label>
-                    <input type="text" id="android-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="android-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="ios-input" aria-describedby="ios-input-help">iOS:&nbsp;</label>
-                    <input type="text" id="ios-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="ios-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            <br>
+            <div id="categoryRadioSelector">
+                <label> Adjustment Category </label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioCustomAudience"
+                        value="custom_audience" checked="">
+                    <label class="form-check-label" for="flexRadioCustomAudience">
+                        Custom Audience
+                    </label>
+                </div>
+                <!-- Uncomment to Enable DMA  -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioHomeLocation"
+                        value="home_location">
+                    <label class="form-check-label" for="flexRadioHomeLocation">
+                        Home Location
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioOS"
+                        value="user_os">
+                    <label class="form-check-label" for="flexRadioOS">
+                        Impression Device OS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioGender"
+                        value="gender">
+                    <label class="form-check-label" for="flexRadioGender">
+                        Gender
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioAge" value="age">
+                    <label class="form-check-label" for="flexRadioAge">
+                        Age
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioDevPlatform"
+                        value="device_platform">
+                    <label class="form-check-label" for="DevPlatform">
+                        Device Platform
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioPosType"
+                        value="position_type">
+                    <label class="form-check-label" for="flexRadioPosType">
+                        Position Type
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory"
+                        id="flexRadioPublisherPlatform" value="publisher_platform">
+                    <label class="form-check-label" for="flexRadioPublisherPlatform">
+                        Publisher Platform
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioCategory" id="flexRadioUserDevice"
+                        value="user_device">
+                    <label class="form-check-label" for="flexRadioUserDevice">
+                        User Device
+                    </label>
+                </div>
             </div>
 
-            <div class="form-group">
-                <p>
-                    <label for="os-default-input" aria-describedby="os-default-help">Default:&nbsp;</label>
-                    <input type="text" id="os-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="os-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            <div id="user_os_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Impression Device OS</h5>
+
+                <div class="form-group">
+                    <p>
+                        <label for="ios-input" aria-describedby="android-input-help">Android:&nbsp;</label>
+                        <input type="text" id="android-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="android-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="ios-input" aria-describedby="ios-input-help">iOS:&nbsp;</label>
+                        <input type="text" id="ios-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="ios-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="os-default-input" aria-describedby="os-default-help">Default:&nbsp;</label>
+                        <input type="text" id="os-default-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="os-default-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
             </div>
-        </div>
 
-        <div id="gender_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h5>
-            <div class="form-group">
-                <p>
-                    <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
-                    <input type="text" id="gender-male-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="gender-male-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            <div id="gender_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Gender</h5>
+                <div class="form-group">
+                    <p>
+                        <label for="gender-male-input" aria-describedby="gender-male-help">Male:&nbsp;</label>
+                        <input type="text" id="gender-male-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="gender-male-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <label for="gender-female-input" aria-describedby="gender-female-help">Female:&nbsp;</label>
+                        <input type="text" id="gender-female-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="gender-female-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="gender-default-input" aria-describedby="gender-default-help">Default:&nbsp;</label>
+                        <input type="text" id="gender-default-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="gender-default-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
             </div>
-        <div class="form-group">
-            <p>
-                <label for="gender-female-input" aria-describedby="gender-female-help">Female:&nbsp;</label>
-                <input type="text" id="gender-female-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="gender-female-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
 
-        <div class="form-group">
-            <p>
-                <label for="gender-default-input" aria-describedby="gender-default-help">Default:&nbsp;</label>
-                <input type="text" id="gender-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="gender-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-        </div>
-
-        <div id="age_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h5>
-            <div class="form-group">
-                <p>
-                    <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
-                    <input type="text" id="age-one-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="age-one-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+            <div id="age_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h5>
+                <div class="form-group age-range-wrapper"> </div>
+                <button type="button" id="add-age-range-button" class="btn btn-success">+ Add Age Range</button>
+                <div class="form-group">
+                    <p>
+                        <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
+                        <input type="text" id="age-default-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="age-default-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
             </div>
-        <div class="form-group">
-            <p>
-                <input type="number" value="30" id="age-two-start"> to <input type="number" value="35" id="age-two-end">:
-                <input type="text" id="age-two-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-two-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
 
-        <div class="form-group">
-            <p>
-                <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
-                <input type="text" id="age-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-        </div>
+            <div id="custom_audience_group_id">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Custom Audience</h5>
+                <button type="button" id="add-cutom-audience-button" class="btn btn-success"> + Add Custom Audience
+                </button>
+                <br>
+                <br>
+                <div class="form-group">
+                    <p>
+                        <label for="ca-default-input" aria-describedby="ca-default-help">Default:&nbsp;</label>
+                        <input type="text" id="ca-default-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="ca-default-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+                <div class="form-group custom-audience-wrapper">
+                </div>
+            </div>
 
-        <div id="custom_audience_group_id">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Custom Audience</h5>
-            <button type="button" id="add-cutom-audience-button" class="btn btn-success"> + Add Custom Audience </button>
+            <div id="home_location_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Home Location</h5>
+                <button type="button" id="add-home-location-button-cities" class="btn btn-success"> + Add
+                    Cities</button>
+                <button type="button" id="add-home-location-button-cities-list" class="btn btn-success"> + Add Cities In
+                    Bulk</button>
+                <br>
+                <br>
+                <div class="form-group home-location-cities-wrapper">
+                </div>
+                <button type="button" id="add-home-location-button-regions" class="btn btn-success"> + Add
+                    Regions</button>
+                <button type="button" id="add-home-location-button-regions-list" class="btn btn-success"> + Add Regions
+                    In Bulk</button>
+                <br>
+                <br>
+                <div class="form-group home-location-regions-wrapper">
+                </div>
+                <button type="button" id="add-home-location-button-countries" class="btn btn-success"> + Add
+                    Countries</button>
+                <button type="button" id="add-home-location-button-countries-list" class="btn btn-success"> + Add
+                    Countries In Bulk</button>
+                <br>
+                <br>
+                <div class="form-group home-location-countries-wrapper">
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="hl-default-input" aria-describedby="hl-default-help">Default:&nbsp;</label>
+                        <input type="text" id="hl-default-input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="hl-default-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+            </div>
+
+            <div id="device_platform_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Device Platform</h5>
+
+                <div class="form-group">
+                    <p>
+                        <label for="dev_mobile_input">Mobile&nbsp;</label>
+                        <input type="text" id="dev_mobile_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="device-mobile-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="dev_desktop_input">Desktop&nbsp;</label>
+                        <input type="text" id="dev_desktop_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="device-desktop-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+            </div>
+
+            <div id="position_type_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Position Type</h5>
+
+                <div class="form-group">
+                    <p>
+                        <label for="fb_feed_input">Facebook Feed&nbsp;</label>
+                        <input type="text" id="fb_feed_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="fb-feed-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="instagram_stream_input">Instagram Feed (instagram_stream)&nbsp;</label>
+                        <input type="text" id="instagram_stream_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="instagram-stream-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="ig_story_input">Instagram Story&nbsp;</label>
+                        <input type="text" id="ig_story_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="ig-story-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="ig_reels_input">Instagram Reels&nbsp;</label>
+                        <input type="text" id="ig_reels_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="ig-reels-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="fb_reels_input">Facebook Reels&nbsp;</label>
+                        <input type="text" id="fb_reels_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="fb-reels-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="default_pos_input">Default&nbsp;</label>
+                        <input type="text" id="default_pos_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="default-pos-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+            </div>
+
+            <div id="publisher_platform_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Publisher Platform</h5>
+
+                <div class="form-group">
+                    <p>
+                        <label for="fb_platform_input">Facebook&nbsp;</label>
+                        <input type="text" id="fb_platform_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="fb-platform-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="instagram_platform_input">Instagram&nbsp;</label>
+                        <input type="text" id="instagram_platform_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="instagram-platform-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="audiencenetwork_platform_input">Audience Network&nbsp;</label>
+                        <input type="text" id="audiencenetwork_platform_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="audiencenetwork-platform-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="default_platform_input">Default&nbsp;</label>
+                        <input type="text" id="default_platform_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="default-platform-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+            </div>
+
+            <div id="user_device_group_id" style="display: none;">
+                <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">User Device</h5>
+
+                <div class="form-group">
+                    <p>
+                        <label for="iphone_user_device_input">iPhone&nbsp;</label>
+                        <input type="text" id="iphone_user_device_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="iphone-user-device-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="ipad_user_device_input">iPad&nbsp;</label>
+                        <input type="text" id="ipad_user_device_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="ipad-user-device-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+
+                <div class="form-group">
+                    <p>
+                        <label for="default_user_device_input">Default&nbsp;</label>
+                        <input type="text" id="default_user_device_input" readonly=""
+                            style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="default-user-device-range"
+                        class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                            tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                            style="left: 100%;"></span></div>
+                </div>
+            </div>
+
+
+            <br>
+            <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
             <br>
             <br>
-            <div class="form-group">
-                <p>
-                    <label for="ca-default-input" aria-describedby="ca-default-help">Default:&nbsp;</label>
-                    <input type="text" id="ca-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="ca-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-            <div class="form-group custom-audience-wrapper">
-            </div>
-        </div>
 
-        <div id="home_location_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Home Location</h5>
-            <button type="button" id="add-home-location-button-cities" class="btn btn-success"> + Add Cities</button>
-            <button type="button" id="add-home-location-button-cities-list" class="btn btn-success"> + Add Cities In Bulk</button>
+            <button type="button" id="check-current-bid-button" class="btn btn-info">Check Current Bid</button>
             <br>
-            <br>
-            <div class="form-group home-location-cities-wrapper">
-            </div>
-            <button type="button" id="add-home-location-button-regions" class="btn btn-success"> + Add Regions</button>
-            <button type="button" id="add-home-location-button-regions-list" class="btn btn-success"> + Add Regions In Bulk</button>
-            <br>
-            <br>
-            <div class="form-group home-location-regions-wrapper">
-            </div>
-            <button type="button" id="add-home-location-button-countries" class="btn btn-success"> + Add Countries</button>
-            <button type="button" id="add-home-location-button-countries-list" class="btn btn-success"> + Add Countries In Bulk</button>
-            <br>
-            <br>
-            <div class="form-group home-location-countries-wrapper">
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="hl-default-input" aria-describedby="hl-default-help">Default:&nbsp;</label>
-                    <input type="text" id="hl-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="hl-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        </div>
-
-        <div id="device_platform_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Device Platform</h5>
-
-            <div class="form-group">
-                <p>
-                    <label for="dev_mobile_input">Mobile&nbsp;</label>
-                    <input type="text" id="dev_mobile_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="device-mobile-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="dev_desktop_input">Desktop&nbsp;</label>
-                    <input type="text" id="dev_desktop_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="device-desktop-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        </div>
-
-        <div id="position_type_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Position Type</h5>
-
-            <div class="form-group">
-                <p>
-                    <label for="fb_feed_input">Facebook Feed&nbsp;</label>
-                    <input type="text" id="fb_feed_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="fb-feed-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="instagram_stream_input">Instagram Feed (instagram_stream)&nbsp;</label>
-                    <input type="text" id="instagram_stream_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="instagram-stream-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="ig_story_input">Instagram Story&nbsp;</label>
-                    <input type="text" id="ig_story_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="ig-story-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="ig_reels_input">Instagram Reels&nbsp;</label>
-                    <input type="text" id="ig_reels_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="ig-reels-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="fb_reels_input">Facebook Reels&nbsp;</label>
-                    <input type="text" id="fb_reels_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="fb-reels-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="default_pos_input">Default&nbsp;</label>
-                    <input type="text" id="default_pos_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="default-pos-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        </div>
-
-        <div id="publisher_platform_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Publisher Platform</h5>
-
-            <div class="form-group">
-                <p>
-                    <label for="fb_platform_input">Facebook&nbsp;</label>
-                    <input type="text" id="fb_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="fb-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="instagram_platform_input">Instagram&nbsp;</label>
-                    <input type="text" id="instagram_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="instagram-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="audiencenetwork_platform_input">Audience Network&nbsp;</label>
-                    <input type="text" id="audiencenetwork_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="audiencenetwork-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="default_platform_input">Default&nbsp;</label>
-                    <input type="text" id="default_platform_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="default-platform-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        </div>
-
-        <div id="user_device_group_id" style="display: none;">
-            <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">User Device</h5>
-
-            <div class="form-group">
-                <p>
-                    <label for="iphone_user_device_input">iPhone&nbsp;</label>
-                    <input type="text" id="iphone_user_device_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="iphone-user-device-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="ipad_user_device_input">iPad&nbsp;</label>
-                    <input type="text" id="ipad_user_device_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="ipad-user-device-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-
-            <div class="form-group">
-                <p>
-                    <label for="default_user_device_input">Default&nbsp;</label>
-                    <input type="text" id="default_user_device_input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                <div id="default-user-device-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-            </div>
-        </div>
-
-
-        <br>
-        <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
-        <br>
-        <br>
-
-        <button type="button" id="check-current-bid-button" class="btn btn-info">Check Current Bid</button>
-        <br>
-        <div class="form-outline">
-            <pre id="current_bid"></pre>
-            <!-- <textarea class="form-control" id="textAreaCurrentBid" rows="10" readonly></textarea>
+            <div class="form-outline">
+                <pre id="current_bid"></pre>
+                <!-- <textarea class="form-control" id="textAreaCurrentBid" rows="10" readonly></textarea>
             <label class="form-label" for="textAreaCurrentBid"></label> -->
-        </div>
+            </div>
 
-        <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-            <span id="alert-text"></span>
-            <button type="button" class="close" onclick="$(&#39;#alert-text-box&#39;).hide();">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-    </form>
-</div>
+            <div id="alert-text-box" class="alert alert-success alert-dismissible fade show" role="alert"
+                style="display: none;">
+                <span id="alert-text"></span>
+                <button type="button" class="close" onclick="$(&#39;#alert-text-box&#39;).hide();">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </form>
+    </div>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script>
-let debug = false;
+    <script>
+        let debug = false;
 
-$(function () {
-            $("input[value='hecYes']").change(function() {
+        $(function () {
+            var max_fields = 1000;
+
+            $("input[value='hecYes']").change(function () {
                 $("input[value='age']").prop('disabled', true);
                 $("input[value='gender']").prop('disabled', true);
                 $("input[value='home_location']").prop('disabled', true);
@@ -425,25 +532,24 @@ $(function () {
             });
 
             // Enable checkbox
-            $("input[value='hecNo']").change(function() {
+            $("input[value='hecNo']").change(function () {
                 $("input[value='age']").prop('disabled', false);
                 $("input[value='gender']").prop('disabled', false);
                 $("input[value='home_location']").prop('disabled', false);
                 $("input[value='custom_audience']").prop('checked', true);
             });
 
-
-            $('input[type="radio"]').click(function() {
+            $('input[type="radio"]').click(function () {
                 var inputValue = $(this).attr("value");
-                $("#user_os_group_id" ).hide();
-                $("#age_group_id" ).hide();
-                $("#gender_group_id" ).hide();
-                $("#custom_audience_group_id" ).hide();
-                $("#home_location_group_id" ).hide();
-                $("#device_platform_group_id" ).hide();
-                $("#position_type_group_id" ).hide();
-                $("#publisher_platform_group_id" ).hide();
-                $("#user_device_group_id" ).hide();
+                $("#user_os_group_id").hide();
+                $("#age_group_id").hide();
+                $("#gender_group_id").hide();
+                $("#custom_audience_group_id").hide();
+                $("#home_location_group_id").hide();
+                $("#device_platform_group_id").hide();
+                $("#position_type_group_id").hide();
+                $("#publisher_platform_group_id").hide();
+                $("#user_device_group_id").hide();
                 $("#" + inputValue + '_group_id').show();
             });
             $("#android-range").slider({
@@ -519,29 +625,10 @@ $(function () {
             });
             $("#gender-default-input").val($("#gender-default-range").slider("values", 0))
 
-            $("#age-one-range").slider({
-                range: false,
-                min: 0.09,
-                max: 1.0,
-                step: .01,
-                values: [1.0],
-                slide: function (event, ui) {
-                    $("#age-one-input").val(ui.values[0]);
-                }
-            });
-            $("#age-one-input").val($("#age-one-range").slider("values", 0));
-
-            $("#age-two-range").slider({
-                range: false,
-                min: 0.09,
-                max: 1.0,
-                step: .01,
-                values: [1.0],
-                slide: function (event, ui) {
-                    $("#age-two-input").val(ui.values[0]);
-                }
-            });
-            $("#age-two-input").val($("#age-two-range").slider("values", 0));
+            // Age
+            var age_range_wrapper = $(".age-range-wrapper");
+            var add_age_range_button = $("#add-age-range-button");
+            var age_range_cnt = 1
 
             $("#age-default-range").slider({
                 range: false,
@@ -555,8 +642,45 @@ $(function () {
             });
             $("#age-default-input").val($("#age-default-range").slider("values", 0));
 
-            var max_fields = 1000;
+            $(add_age_range_button).click(function (e) {
+                e.preventDefault();
+                if (age_range_cnt < max_fields) {
+                    age_range_cnt++;
+                    let i = age_range_cnt;
+                    let input = `<div class="age-range-section">
+                        <p>
+                            <input type="number" value="18" id="age-${i}-start" class="age-range-start"> to
+                            <input type="number" value="25" id="age-${i}-end" class="age-range-end">:
+                            <input type="text" id="age-${i}-input" readonly="" class="age-range-bid" style="border:0; color:#f6931f; font-weight:bold;">
+                        </p>
+                        <div id="age-${i}-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
+                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span>
+                        </div>
+                        <a href="#" class="delete">Delete</a>
+                    </div>`;
+                    $(age_range_wrapper).append(input);
 
+                    $(`#age-${i}-range`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#age-${i}-input`).val(ui.values[0]);
+                        }
+                    });
+                    $(`#age-${i}-input`).val($(`#age-${i}-range`).slider("values", 0));
+                } else {
+                    alert('Max number of items is ' + max_fields)
+                }
+            });
+
+            $(age_range_wrapper).on("click", ".delete", function (e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                age_range_cnt--;
+            })
 
             // Custom Audience
             var wrapper = $(".custom-audience-wrapper");
@@ -575,7 +699,7 @@ $(function () {
 
             $("#ca-default-input").val($("#ca-default-range").slider("values", 0));
             var custom_audience_cnt = 0
-            $(add_button).click(function(e) {
+            $(add_button).click(function (e) {
                 e.preventDefault();
                 if (custom_audience_cnt < max_fields) {
                     let i = custom_audience_cnt;
@@ -601,13 +725,12 @@ $(function () {
                         }
                     });
                     custom_audience_cnt++;
-
                 } else {
                     alert('Max number of customer Audience ID is ' + max_fields)
                 }
             });
 
-            $(wrapper).on("click", ".delete", function(e) {
+            $(wrapper).on("click", ".delete", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 custom_audience_cnt--;
@@ -636,10 +759,10 @@ $(function () {
 
             var home_location_cities_cnt = 0;
             var home_location_cities_list_cnt = 0;
-            $(hl_add_button_cities).click(function(e) {
+            $(hl_add_button_cities).click(function (e) {
                 e.preventDefault();
                 let total_cities = home_location_cities_cnt;
-                for (let i=0; i<home_location_cities_list_cnt; i++) {
+                for (let i = 0; i < home_location_cities_list_cnt; i++) {
                     total_cities += $(`#home-location-cities-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_cities < max_fields) {
@@ -672,10 +795,10 @@ $(function () {
                 }
             });
 
-            $(hl_add_button_cities_list).click(function(e) {
+            $(hl_add_button_cities_list).click(function (e) {
                 e.preventDefault();
                 let total_cities = home_location_cities_cnt;
-                for (let i=0; i<home_location_cities_list_cnt; i++) {
+                for (let i = 0; i < home_location_cities_list_cnt; i++) {
                     total_cities += $(`#home-location-cities-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_cities < max_fields) {
@@ -691,10 +814,10 @@ $(function () {
                                 </div>`;
                     $(hl_wrapper_cities).append(input); //add input box
 
-                    $(`#home-location-cities-list-id-${i}`).on("change keyup paste", function() {
+                    $(`#home-location-cities-list-id-${i}`).on("change keyup paste", function () {
                         const current_cities_list_value = $(this).val();
                         let total_city = home_location_cities_cnt;
-                        for (let i=0; i<home_location_cities_list_cnt; i++) {
+                        for (let i = 0; i < home_location_cities_list_cnt; i++) {
                             total_city += $(`#home-location-cities-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                         }
                         if (total_city > max_fields) {
@@ -719,12 +842,12 @@ $(function () {
                 }
             });
 
-            $(hl_wrapper_cities).on("click", ".delete", function(e) {
+            $(hl_wrapper_cities).on("click", ".delete", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_cities_cnt--;
             })
-            $(hl_wrapper_cities).on("click", ".delete_list", function(e) {
+            $(hl_wrapper_cities).on("click", ".delete_list", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_cities_list_cnt--;
@@ -738,10 +861,10 @@ $(function () {
 
             var home_location_regions_cnt = 0;
             var home_location_regions_list_cnt = 0;
-            $(hl_add_button_regions).click(function(e) {
+            $(hl_add_button_regions).click(function (e) {
                 e.preventDefault();
                 let total_regions = home_location_regions_cnt;
-                for (let i=0; i<home_location_regions_list_cnt; i++) {
+                for (let i = 0; i < home_location_regions_list_cnt; i++) {
                     total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_regions < max_fields) {
@@ -773,10 +896,10 @@ $(function () {
                     alert('Max number of Regions is ' + max_fields)
                 }
             });
-            $(hl_add_button_regions_list).click(function(e) {
+            $(hl_add_button_regions_list).click(function (e) {
                 e.preventDefault();
                 let total_regions = home_location_regions_cnt;
-                for (let i=0; i<home_location_regions_list_cnt; i++) {
+                for (let i = 0; i < home_location_regions_list_cnt; i++) {
                     total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_regions < max_fields) {
@@ -792,10 +915,10 @@ $(function () {
                                 </div>`;
                     $(hl_wrapper_regions).append(input); //add input box
 
-                    $(`#home-location-regions-list-id-${i}`).on("change keyup paste", function() {
+                    $(`#home-location-regions-list-id-${i}`).on("change keyup paste", function () {
                         const current_regions_list_value = $(this).val();
                         let total_regions = home_location_regions_cnt;
-                        for (let i=0; i<home_location_regions_list_cnt; i++) {
+                        for (let i = 0; i < home_location_regions_list_cnt; i++) {
                             total_regions += $(`#home-location-regions-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                         }
                         if (total_regions > max_fields) {
@@ -821,12 +944,12 @@ $(function () {
             });
 
 
-            $(hl_wrapper_regions).on("click", ".delete", function(e) {
+            $(hl_wrapper_regions).on("click", ".delete", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_regions_cnt--;
             })
-            $(hl_wrapper_regions).on("click", ".delete_list", function(e) {
+            $(hl_wrapper_regions).on("click", ".delete_list", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_regions_list_cnt--;
@@ -839,10 +962,10 @@ $(function () {
 
             var home_location_countries_cnt = 0
             var home_location_countries_list_cnt = 0
-            $(hl_add_button_countries).click(function(e) {
+            $(hl_add_button_countries).click(function (e) {
                 e.preventDefault();
                 let total_countries = home_location_countries_cnt;
-                for (let i=0; i<home_location_countries_list_cnt; i++) {
+                for (let i = 0; i < home_location_countries_list_cnt; i++) {
                     total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_countries < max_fields) {
@@ -875,10 +998,10 @@ $(function () {
                 }
             });
 
-            $(hl_add_button_countries_list).click(function(e) {
+            $(hl_add_button_countries_list).click(function (e) {
                 e.preventDefault();
                 let total_countries = home_location_countries_cnt;
-                for (let i=0; i<home_location_countries_list_cnt; i++) {
+                for (let i = 0; i < home_location_countries_list_cnt; i++) {
                     total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                 }
                 if (total_countries < max_fields) {
@@ -894,10 +1017,10 @@ $(function () {
                                 </div>`;
                     $(hl_wrapper_countries).append(input); //add input box
 
-                    $(`#home-location-countries-list-id-${i}`).on("change keyup paste", function() {
+                    $(`#home-location-countries-list-id-${i}`).on("change keyup paste", function () {
                         const current_countries_list_value = $(this).val();
                         let total_countries = home_location_countries_cnt;
-                        for (let i=0; i<home_location_countries_list_cnt; i++) {
+                        for (let i = 0; i < home_location_countries_list_cnt; i++) {
                             total_countries += $(`#home-location-countries-list-id-${i}`).val().split(',').filter(x => Number(x) > 0).length;
                         }
                         if (total_countries > max_fields) {
@@ -922,12 +1045,12 @@ $(function () {
                 }
             });
 
-            $(hl_wrapper_countries).on("click", ".delete", function(e) {
+            $(hl_wrapper_countries).on("click", ".delete", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_countries_cnt--;
             })
-            $(hl_wrapper_countries).on("click", ".delete_list", function(e) {
+            $(hl_wrapper_countries).on("click", ".delete_list", function (e) {
                 e.preventDefault();
                 $(this).parent('div').remove();
                 home_location_countries_list_cnt--;
@@ -1114,248 +1237,246 @@ $(function () {
             $("#default_user_device_input").val($("#default-user-device-range").slider("values", 0));
         });
 
-    $('#submit-button').click(function () {
-        $('#alert-text-box').hide();
+        $('#submit-button').click(function () {
+            $('#alert-text-box').hide();
 
-        let adSetId = $('#ad-set-id-input').val().trim();
-        let accessToken = $('#access-token-input').val().trim();
+            let adSetId = $('#ad-set-id-input').val().trim();
+            let accessToken = $('#access-token-input').val().trim();
 
-        let androidBidMod = $('#android-range').slider("values", 0);
-        let iOSBidMod = $('#ios-range').slider("values", 0);
-        let osDefaultBidMod = $('#os-default-range').slider("values", 0);
+            let androidBidMod = $('#android-range').slider("values", 0);
+            let iOSBidMod = $('#ios-range').slider("values", 0);
+            let osDefaultBidMod = $('#os-default-range').slider("values", 0);
 
-        let devMobileBidMod = $('#device-mobile-range').slider("values", 0);
-        let devDesktopBidMod = $('#device-desktop-range').slider("values", 0);
+            let devMobileBidMod = $('#device-mobile-range').slider("values", 0);
+            let devDesktopBidMod = $('#device-desktop-range').slider("values", 0);
 
-        let fbFeedBidMod = $('#fb-feed-range').slider("values", 0);
-        let fbMarketPlaceBidMod = $('#instagram-stream-range').slider("values", 0);
-        let igStoryBidMod = $('#ig-story-range').slider("values", 0);
-        let igReelsBidMod = $('#ig-reels-range').slider("values", 0);
-        let fbReelsBidMod = $('#fb-reels-range').slider("values", 0);
-        let posDefaultBidMod = $('#default-pos-range').slider("values", 0);
+            let fbFeedBidMod = $('#fb-feed-range').slider("values", 0);
+            let fbMarketPlaceBidMod = $('#instagram-stream-range').slider("values", 0);
+            let igStoryBidMod = $('#ig-story-range').slider("values", 0);
+            let igReelsBidMod = $('#ig-reels-range').slider("values", 0);
+            let fbReelsBidMod = $('#fb-reels-range').slider("values", 0);
+            let posDefaultBidMod = $('#default-pos-range').slider("values", 0);
 
+            let maleBidMod = $('#gender-male-range').slider("values", 0);
+            let femaleBidMod = $('#gender-female-range').slider("values", 0);
+            let genderDefaultBidMod = $('#gender-default-range').slider("values", 0);
 
-        let maleBidMod = $('#gender-male-range').slider("values", 0);
-        let femaleBidMod = $('#gender-female-range').slider("values", 0);
-        let genderDefaultBidMod = $('#gender-default-range').slider("values", 0);
+            let fbPlatformBidMod = $('#fb-platform-range').slider("values", 0);
+            let igPlatformBidMod = $('#instagram-platform-range').slider("values", 0);
+            let anPlatformBidMod = $('#audiencenetwork-platform-range').slider("values", 0);
+            let defaultPlatformBidMod = $('#default-platform-range').slider("values", 0);
 
-        let ageOneBidMod = $('#age-one-range').slider("values", 0);
-        let ageTwoBidMod = $('#age-two-range').slider("values", 0);
-        let ageDefaultBidMod = $('#age-default-range').slider("values", 0);
+            let iphoneUserDeviceBidMod = $('#iphone-user-device-range').slider("values", 0);
+            let ipadUserDeviceBidMod = $('#ipad-user-device-range').slider("values", 0);
+            let defaultUserDeviceBidMod = $('#default-user-device-range').slider("values", 0);
 
-        let fbPlatformBidMod = $('#fb-platform-range').slider("values", 0);
-        let igPlatformBidMod = $('#instagram-platform-range').slider("values", 0);
-        let anPlatformBidMod = $('#audiencenetwork-platform-range').slider("values", 0);
-        let defaultPlatformBidMod = $('#default-platform-range').slider("values", 0);
-
-        let iphoneUserDeviceBidMod = $('#iphone-user-device-range').slider("values", 0);
-        let ipadUserDeviceBidMod = $('#ipad-user-device-range').slider("values", 0);
-        let defaultUserDeviceBidMod = $('#default-user-device-range').slider("values", 0);
-
-        if (adSetId === '' || accessToken === '') {
-            sendAlert('Please complete all fields', true);
-            return;
-        }
-        if (!/^\d+$/.test(adSetId)) {
-            sendAlert('Ad Set ID must be numeric', true);
-            return;
-        }
-        let ageOne = $('#age-one-start').val() + '-' + $('#age-one-end').val();
-        let ageTwo = $('#age-two-start').val() + '-' + $('#age-two-end').val();
-
-        let caDefaultBidMod = $('#ca-default-range').slider("values", 0);
-        let customAudienceIDs = {};
-        $(".custom-audience-input").each(function(){
-          if($(this).val()==""){
-              sendAlert('custom audience id cannot be empty', true);
-          }else{
-              let customAudienceID = $(this).val().trim();
-              let customAudienceIDBidMod = $(this).closest(".ca-section").find('.custom-audience-bid').val();
-              customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
-          }
-        });
-
-        let hlDefaultBidMod = $('#hl-default-range').slider("values", 0);
-        let homeLocationCityIDs = {};
-        $(".home-location-cities-input").each(function(){
-          if($(this).val()==""){
-              sendAlert('City location cannot be empty', true);
-          }else{
-              let homeLocationCityID = String($(this).val().trim());
-              let homeLocationCityIDBidMod = $(this).closest(".hl-section").find('.home-location-cities-bid').val();
-              homeLocationCityIDs[homeLocationCityID] = parseFloat(homeLocationCityIDBidMod);
-          }
-        });
-        $(".home-location-cities-list-input").each(function() {
-            if($(this).val()==""){
-              sendAlert('City location cannot be empty', true);
-          }else{
-              const cities = $(this).val().split(',');
-              for (const city of cities) {
-                let homeLocationCityID = String(city.trim());
-                let homeLocationCityIDBidMod = $(this).closest(".hl-section").find('.home-location-cities-list-bid').val();
-                homeLocationCityIDs[homeLocationCityID] = parseFloat(homeLocationCityIDBidMod);
-              }
-          }
-        })
-
-        let homeLocationRegionIDs = {};
-        $(".home-location-regions-input").each(function(){
-          if($(this).val()==""){
-              sendAlert('Region location cannot be empty', true);
-          }else{
-              let homeLocationRegionID = String($(this).val().trim());
-              let homeLocationRegionIDBidMod = $(this).closest(".hl-section").find('.home-location-regions-bid').val();
-              homeLocationRegionIDs[homeLocationRegionID] = parseFloat(homeLocationRegionIDBidMod);
-          }
-        });
-        $(".home-location-regions-list-input").each(function() {
-            if($(this).val()==""){
-              sendAlert('Region location cannot be empty', true);
-          }else{
-              const regions = $(this).val().split(',');
-              for (const region of regions) {
-                let homeLocationRegionID = String(region.trim());
-                let homeLocationRegionIDBidMod = $(this).closest(".hl-section").find('.home-location-regions-list-bid').val();
-                homeLocationRegionIDs[homeLocationRegionID] = parseFloat(homeLocationRegionIDBidMod);
-              }
-          }
-        })
-
-        let homeLocationCountryIDs = {};
-        $(".home-location-countries-input").each(function(){
-          if($(this).val()==""){
-              sendAlert('Country location cannot be empty', true);
-          }else{
-              let homeLocationCountryID = String($(this).val().trim());
-              let homeLocationCountryIDBidMod = $(this).closest(".hl-section").find('.home-location-countries-bid').val();
-              homeLocationCountryIDs[homeLocationCountryID] = parseFloat(homeLocationCountryIDBidMod);
-          }
-        });
-        $(".home-location-countries-list-input").each(function(){
-          if($(this).val()==""){
-              sendAlert('Country location cannot be empty', true);
-          }else{
-            const countries = $(this).val().split(',');
-            for (const country of countries) {
-
-              let homeLocationCountryID = String(country.trim());
-              let homeLocationCountryIDBidMod = $(this).closest(".hl-section").find('.home-location-countries-list-bid').val();
-              homeLocationCountryIDs[homeLocationCountryID] = parseFloat(homeLocationCountryIDBidMod);
+            if (adSetId === '' || accessToken === '') {
+                sendAlert('Please complete all fields', true);
+                return;
             }
-          }
+            if (!/^\d+$/.test(adSetId)) {
+                sendAlert('Ad Set ID must be numeric', true);
+                return;
+            }
+
+            let caDefaultBidMod = $('#ca-default-range').slider("values", 0);
+            let customAudienceIDs = {};
+            $(".custom-audience-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('custom audience id cannot be empty', true);
+                } else {
+                    let customAudienceID = $(this).val().trim();
+                    let customAudienceIDBidMod = $(this).closest(".ca-section").find('.custom-audience-bid').val();
+                    customAudienceIDs[customAudienceID] = parseFloat(customAudienceIDBidMod);
+                }
+            });
+
+            let hlDefaultBidMod = $('#hl-default-range').slider("values", 0);
+            let homeLocationCityIDs = {};
+            $(".home-location-cities-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('City location cannot be empty', true);
+                } else {
+                    let homeLocationCityID = String($(this).val().trim());
+                    let homeLocationCityIDBidMod = $(this).closest(".hl-section").find('.home-location-cities-bid').val();
+                    homeLocationCityIDs[homeLocationCityID] = parseFloat(homeLocationCityIDBidMod);
+                }
+            });
+            $(".home-location-cities-list-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('City location cannot be empty', true);
+                } else {
+                    const cities = $(this).val().split(',');
+                    for (const city of cities) {
+                        let homeLocationCityID = String(city.trim());
+                        let homeLocationCityIDBidMod = $(this).closest(".hl-section").find('.home-location-cities-list-bid').val();
+                        homeLocationCityIDs[homeLocationCityID] = parseFloat(homeLocationCityIDBidMod);
+                    }
+                }
+            })
+
+            let homeLocationRegionIDs = {};
+            $(".home-location-regions-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('Region location cannot be empty', true);
+                } else {
+                    let homeLocationRegionID = String($(this).val().trim());
+                    let homeLocationRegionIDBidMod = $(this).closest(".hl-section").find('.home-location-regions-bid').val();
+                    homeLocationRegionIDs[homeLocationRegionID] = parseFloat(homeLocationRegionIDBidMod);
+                }
+            });
+            $(".home-location-regions-list-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('Region location cannot be empty', true);
+                } else {
+                    const regions = $(this).val().split(',');
+                    for (const region of regions) {
+                        let homeLocationRegionID = String(region.trim());
+                        let homeLocationRegionIDBidMod = $(this).closest(".hl-section").find('.home-location-regions-list-bid').val();
+                        homeLocationRegionIDs[homeLocationRegionID] = parseFloat(homeLocationRegionIDBidMod);
+                    }
+                }
+            })
+
+            let homeLocationCountryIDs = {};
+            $(".home-location-countries-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('Country location cannot be empty', true);
+                } else {
+                    let homeLocationCountryID = String($(this).val().trim());
+                    let homeLocationCountryIDBidMod = $(this).closest(".hl-section").find('.home-location-countries-bid').val();
+                    homeLocationCountryIDs[homeLocationCountryID] = parseFloat(homeLocationCountryIDBidMod);
+                }
+            });
+            $(".home-location-countries-list-input").each(function () {
+                if ($(this).val() == "") {
+                    sendAlert('Country location cannot be empty', true);
+                } else {
+                    const countries = $(this).val().split(',');
+                    for (const country of countries) {
+
+                        let homeLocationCountryID = String(country.trim());
+                        let homeLocationCountryIDBidMod = $(this).closest(".hl-section").find('.home-location-countries-list-bid').val();
+                        homeLocationCountryIDs[homeLocationCountryID] = parseFloat(homeLocationCountryIDBidMod);
+                    }
+                }
+            });
+
+            let homeLocationGroup = {};
+            homeLocationGroup["default"] = hlDefaultBidMod.toString();
+            homeLocationGroup["cities"] = homeLocationCityIDs;
+            homeLocationGroup["regions"] = homeLocationRegionIDs;
+            homeLocationGroup["countries"] = homeLocationCountryIDs;
+
+            customAudienceIDs["default"] = caDefaultBidMod;
+
+            let ageGroup = {};
+            $(".age-range-section").each(function () {
+                let range_vals = $(this).find('.age-range-start').val() + '-' + $(this).find('.age-range-end').val();
+                let range_bid = parseFloat($(this).find('.age-range-bid').val());
+                ageGroup[range_vals] = range_bid;
+            });
+
+            let ageDefaultBidMod = $('#age-default-range').slider("values", 0);
+            ageGroup["default"] = ageDefaultBidMod;
+
+            let osGroup = {}
+            osGroup['Android'] = androidBidMod;
+            osGroup['iOS'] = iOSBidMod;
+            osGroup['default'] = osDefaultBidMod;
+
+            let genderGroup = {}
+            genderGroup['male'] = maleBidMod;
+            genderGroup['female'] = femaleBidMod;
+            genderGroup['default'] = genderDefaultBidMod;
+
+            let deviceGroup = {}
+            deviceGroup['mobile'] = devMobileBidMod;
+            deviceGroup['desktop'] = devDesktopBidMod;
+
+            let positionGroup = {}
+            positionGroup['facebook_feed'] = fbFeedBidMod;
+            positionGroup['instagram_stream'] = fbMarketPlaceBidMod;
+            positionGroup['instagram_story'] = igStoryBidMod;
+            positionGroup['instagram_reels'] = igReelsBidMod;
+            positionGroup['facebook_facebook_reels'] = fbReelsBidMod;
+            positionGroup['default'] = posDefaultBidMod;
+
+            let platformGroup = {}
+            platformGroup['facebook'] = fbPlatformBidMod;
+            platformGroup['instagram'] = igPlatformBidMod;
+            platformGroup['audience_network'] = anPlatformBidMod;
+            platformGroup['default'] = defaultPlatformBidMod;
+
+            let userDeviceGroup = {}
+            userDeviceGroup['iPhone'] = iphoneUserDeviceBidMod;
+            userDeviceGroup['iPad'] = ipadUserDeviceBidMod;
+            userDeviceGroup['default'] = defaultUserDeviceBidMod;
+
+            let selectedGroup = $('input[name="flexRadioCategory"]:checked').val();
+            let userGroup = {};
+
+            let groupWithBid = {};
+            groupWithBid['custom_audience'] = customAudienceIDs;
+            groupWithBid['home_location'] = homeLocationGroup;
+            groupWithBid["user_os"] = osGroup;
+            groupWithBid["gender"] = genderGroup;
+            groupWithBid["age"] = ageGroup;
+            groupWithBid["device_platform"] = deviceGroup;
+            groupWithBid['position_type'] = positionGroup;
+            groupWithBid['publisher_platform'] = platformGroup;
+            groupWithBid['user_device'] = userDeviceGroup;
+
+            userGroup[selectedGroup] = groupWithBid[selectedGroup];
+
+            let data = {
+                'access_token': accessToken,
+                '_reqSrc': 'BidMultiplierAlphaUI',
+                'bid_adjustments': {
+                    'user_groups': userGroup,
+                }
+            };
+
+            if (debug === true) {
+                console.log(data);
+                console.log(selectedGroup);
+                console.log(groupWithBid);
+            }
+
+            var xhr = $.ajax({
+                url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v19.0/" + adSetId,
+                type: "POST",
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    fbq('trackCustom', 'BidModApplied', { content_ids: [adSetId] });
+                    sendAlert('Success!', false);
+                },
+                error: function (res) {
+                    console.log(res);
+                    let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
+                    fbq('trackCustom', 'BidModFailure');
+                    sendAlert(errorText, true);
+                }
+            });
         });
 
-        let homeLocationGroup = {};
-        homeLocationGroup["default"] = hlDefaultBidMod.toString();
-        homeLocationGroup["cities"] = homeLocationCityIDs;
-        homeLocationGroup["regions"] = homeLocationRegionIDs;
-        homeLocationGroup["countries"] = homeLocationCountryIDs;
-
-        customAudienceIDs["default"] = caDefaultBidMod;
-
-        let ageGroup = {};
-        ageGroup[ageOne] = ageOneBidMod;
-        ageGroup[ageTwo] = ageTwoBidMod;
-        ageGroup["default"] = ageDefaultBidMod;
-
-        let osGroup = {}
-        osGroup['Android'] = androidBidMod;
-        osGroup['iOS'] = iOSBidMod;
-        osGroup['default'] = osDefaultBidMod;
-
-        let genderGroup = {}
-        genderGroup['male'] = maleBidMod;
-        genderGroup['female'] = femaleBidMod;
-        genderGroup['default'] = genderDefaultBidMod;
-
-        let deviceGroup = {}
-        deviceGroup['mobile'] = devMobileBidMod;
-        deviceGroup['desktop'] = devDesktopBidMod;
-
-        let positionGroup = {}
-        positionGroup['facebook_feed'] = fbFeedBidMod;
-        positionGroup['instagram_stream'] = fbMarketPlaceBidMod;
-        positionGroup['instagram_story'] = igStoryBidMod;
-        positionGroup['instagram_reels'] = igReelsBidMod;
-        positionGroup['facebook_facebook_reels'] = fbReelsBidMod;
-        positionGroup['default'] = posDefaultBidMod;
-
-        let platformGroup = {}
-        platformGroup['facebook'] = fbPlatformBidMod;
-        platformGroup['instagram'] = igPlatformBidMod;
-        platformGroup['audience_network'] = anPlatformBidMod;
-        platformGroup['default'] = defaultPlatformBidMod;
-
-        let userDeviceGroup = {}
-        userDeviceGroup['iPhone'] = iphoneUserDeviceBidMod;
-        userDeviceGroup['iPad'] = ipadUserDeviceBidMod;
-        userDeviceGroup['default'] = defaultUserDeviceBidMod;
-
-        let selectedGroup = $('input[name="flexRadioCategory"]:checked').val();
-        let userGroup = {};
-
-        let groupWithBid = {};
-        groupWithBid['custom_audience'] = customAudienceIDs;
-        groupWithBid['home_location'] = homeLocationGroup;
-        groupWithBid["user_os"] = osGroup;
-        groupWithBid["gender"] = genderGroup;
-        groupWithBid["age"] = ageGroup;
-        groupWithBid["device_platform"] = deviceGroup;
-        groupWithBid['position_type'] = positionGroup;
-        groupWithBid['publisher_platform'] = platformGroup;
-        groupWithBid['user_device'] = userDeviceGroup;
-
-        userGroup[selectedGroup] = groupWithBid[selectedGroup];
-
-        let data = {
-            'access_token': accessToken,
-            '_reqSrc': 'BidMultiplierAlphaUI',
-            'bid_adjustments': {
-                'user_groups': userGroup,
+        $('#check-current-bid-button').click(function () {
+            $('#alert-text-box').hide();
+            let adSetId = $('#ad-set-id-input').val().trim();
+            let accessToken = $('#access-token-input').val().trim();
+            if (adSetId === '' || accessToken === '') {
+                sendAlert('Please complete all fields', true);
+                return;
             }
-        };
-
-        if (debug === true) {
-            console.log(data);
-            console.log(selectedGroup);
-            console.log(groupWithBid);
-        }
-
-        var xhr = $.ajax({
-            url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v19.0/" + adSetId,
-            type: "POST",
-            data: data,
-            success: function (res) {
-                console.log(res);
-                fbq('trackCustom', 'BidModApplied', {content_ids: [adSetId]});
-                sendAlert('Success!', false);
-            },
-            error: function (res) {
-                console.log(res);
-                let errorText = res.responseJSON.error.message + ' fb_traceid: ' + res.responseJSON.error.fbtrace_id;
-                fbq('trackCustom', 'BidModFailure');
-                sendAlert(errorText, true);
+            if (!/^\d+$/.test(adSetId)) {
+                sendAlert('Ad Set ID must be numeric', true);
+                return;
             }
-        });
-    });
-
-    $('#check-current-bid-button').click(function () {
-        $('#alert-text-box').hide();
-        let adSetId = $('#ad-set-id-input').val().trim();
-        let accessToken = $('#access-token-input').val().trim();
-        if (adSetId === '' || accessToken === '') {
-            sendAlert('Please complete all fields', true);
-            return;
-        }
-        if (!/^\d+$/.test(adSetId)) {
-            sendAlert('Ad Set ID must be numeric', true);
-            return;
-        }
-        let data = {
-            'access_token': accessToken,
-        };
-        var xhr = $.ajax({
+            let data = {
+                'access_token': accessToken,
+            };
+            var xhr = $.ajax({
                 url: "https://bread.bid-multipliers.workers.dev/?https://graph.facebook.com/v19.0/" + adSetId + "?fields=bid_adjustments",
                 type: "GET",
                 data: data,
@@ -1370,20 +1491,21 @@ $(function () {
                     sendAlert(errorText, true);
                 }
             });
-    });
-    function sendAlert(text, isError) {
-        let $alert = $('#alert-text-box');
-        if (isError) {
-            $alert.removeClass('alert-success');
-            $alert.addClass('alert-danger');
-        } else {
-            $alert.removeClass('alert-danger');
-            $alert.addClass('alert-success');
+        });
+        function sendAlert(text, isError) {
+            let $alert = $('#alert-text-box');
+            if (isError) {
+                $alert.removeClass('alert-success');
+                $alert.addClass('alert-danger');
+            } else {
+                $alert.removeClass('alert-danger');
+                $alert.addClass('alert-success');
+            }
+            $('#alert-text').text(text);
+            $alert.show();
         }
-        $('#alert-text').text(text);
-        $alert.show();
-    }
 
-</script>
+    </script>
 </body>
+
 </html>
