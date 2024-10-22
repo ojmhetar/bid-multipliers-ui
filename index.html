@@ -181,28 +181,19 @@
 
         <div id="age_group_id" style="display: none;">
             <h5 style="padding-top: 2rem; padding-bottom: 0.5rem;">Age</h5>
+            <div class="form-group age-range-wrapper"> </div>
+            <button type="button" id="add-age-range-button" class="btn btn-success">+ Add Age Range</button>
             <div class="form-group">
                 <p>
-                    <input type="number" value="18" id="age-one-start"> to <input type="number" value="25" id="age-one-end">:
-                    <input type="text" id="age-one-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                    <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
+                    <input type="text" id="age-default-input" readonly=""
+                        style="border:0; color:#f6931f; font-weight:bold;">
                 </p>
-                <div id="age-one-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
+                <div id="age-default-range"
+                    class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span
+                        tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"
+                        style="left: 100%;"></span></div>
             </div>
-        <div class="form-group">
-            <p>
-                <input type="number" value="30" id="age-two-start"> to <input type="number" value="35" id="age-two-end">:
-                <input type="text" id="age-two-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-two-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
-
-        <div class="form-group">
-            <p>
-                <label for="age-default-input" aria-describedby="age-default-help">Default:&nbsp;</label>
-                <input type="text" id="age-default-input" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-            <div id="age-default-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span></div>
-        </div>
         </div>
 
         <div id="custom_audience_group_id">
@@ -519,29 +510,12 @@ $(function () {
             });
             $("#gender-default-input").val($("#gender-default-range").slider("values", 0))
 
-            $("#age-one-range").slider({
-                range: false,
-                min: 0.09,
-                max: 1.0,
-                step: .01,
-                values: [1.0],
-                slide: function (event, ui) {
-                    $("#age-one-input").val(ui.values[0]);
-                }
-            });
-            $("#age-one-input").val($("#age-one-range").slider("values", 0));
+            var max_fields = 1000;
 
-            $("#age-two-range").slider({
-                range: false,
-                min: 0.09,
-                max: 1.0,
-                step: .01,
-                values: [1.0],
-                slide: function (event, ui) {
-                    $("#age-two-input").val(ui.values[0]);
-                }
-            });
-            $("#age-two-input").val($("#age-two-range").slider("values", 0));
+            // Age
+            var age_range_wrapper = $(".age-range-wrapper");
+            var add_age_range_button = $("#add-age-range-button");
+            var age_range_cnt = 1
 
             $("#age-default-range").slider({
                 range: false,
@@ -555,8 +529,45 @@ $(function () {
             });
             $("#age-default-input").val($("#age-default-range").slider("values", 0));
 
-            var max_fields = 1000;
+            $(add_age_range_button).click(function (e) {
+                e.preventDefault();
+                if (age_range_cnt < max_fields) {
+                    age_range_cnt++;
+                    let i = age_range_cnt;
+                    let input = `<div class="age-range-section">
+                        <p>
+                            <input type="number" value="18" id="age-${i}-start" class="age-range-start"> to
+                            <input type="number" value="25" id="age-${i}-end" class="age-range-end">:
+                            <input type="text" id="age-${i}-input" readonly="" class="age-range-bid" style="border:0; color:#f6931f; font-weight:bold;">
+                        </p>
+                        <div id="age-${i}-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
+                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span>
+                        </div>
+                        <a href="#" class="delete">Delete</a>
+                    </div>`;
+                    $(age_range_wrapper).append(input);
 
+                    $(`#age-${i}-range`).slider({
+                        range: false,
+                        min: 0.09,
+                        max: 1.0,
+                        step: .01,
+                        values: [1.0],
+                        slide: function (event, ui) {
+                            $(`#age-${i}-input`).val(ui.values[0]);
+                        }
+                    });
+                    $(`#age-${i}-input`).val($(`#age-${i}-range`).slider("values", 0));
+                } else {
+                    alert('Max number of items is ' + max_fields)
+                }
+            });
+
+            $(age_range_wrapper).on("click", ".delete", function (e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                age_range_cnt--;
+            })
 
             // Custom Audience
             var wrapper = $(".custom-audience-wrapper");
@@ -1139,9 +1150,6 @@ $(function () {
         let femaleBidMod = $('#gender-female-range').slider("values", 0);
         let genderDefaultBidMod = $('#gender-default-range').slider("values", 0);
 
-        let ageOneBidMod = $('#age-one-range').slider("values", 0);
-        let ageTwoBidMod = $('#age-two-range').slider("values", 0);
-        let ageDefaultBidMod = $('#age-default-range').slider("values", 0);
 
         let fbPlatformBidMod = $('#fb-platform-range').slider("values", 0);
         let igPlatformBidMod = $('#instagram-platform-range').slider("values", 0);
@@ -1160,8 +1168,6 @@ $(function () {
             sendAlert('Ad Set ID must be numeric', true);
             return;
         }
-        let ageOne = $('#age-one-start').val() + '-' + $('#age-one-end').val();
-        let ageTwo = $('#age-two-start').val() + '-' + $('#age-two-end').val();
 
         let caDefaultBidMod = $('#ca-default-range').slider("values", 0);
         let customAudienceIDs = {};
@@ -1255,8 +1261,13 @@ $(function () {
         customAudienceIDs["default"] = caDefaultBidMod;
 
         let ageGroup = {};
-        ageGroup[ageOne] = ageOneBidMod;
-        ageGroup[ageTwo] = ageTwoBidMod;
+        $(".age-range-section").each(function () {
+            let range_vals = $(this).find('.age-range-start').val() + '-' + $(this).find('.age-range-end').val();
+            let range_bid = parseFloat($(this).find('.age-range-bid').val());
+            ageGroup[range_vals] = range_bid;
+        });
+
+        let ageDefaultBidMod = $('#age-default-range').slider("values", 0);
         ageGroup["default"] = ageDefaultBidMod;
 
         let osGroup = {}
